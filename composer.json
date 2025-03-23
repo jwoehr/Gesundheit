@@ -1,0 +1,13 @@
+{
+    "name": "vendor/gesundheit",
+    "description": "Description of project Gesundheit.",
+    "authors": [
+        {
+            "name": "jwoehr",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "mongodb/mongodb": "1.21.1"
+    }
+}
