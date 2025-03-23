@@ -147,8 +147,8 @@ async function create_issue(uri, dbname = "gesundheit") {
 
 /* usage, e.g.:
  * var x = require('./scripts/create_collections.js');
- *   x.user('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit_test').catch(console.dir)
- *   x.issue('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit_test').catch(console.dir)
+ *   x.user('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit_test')
+ *   x.issue('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit_test')
  */
 
 module.exports = {
