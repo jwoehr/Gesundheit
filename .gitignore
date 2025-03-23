@@ -1,4 +1,6 @@
-/nbproject/private
-/vendor/**
+nbproject/private
+vendor/**
+node_modules/**
+
 
 
