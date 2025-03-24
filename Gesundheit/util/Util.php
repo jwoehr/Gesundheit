@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<!--
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2025 jwoehr.
@@ -23,23 +23,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Gesundheit Issue Tracker</title>
-    </head>
-    <body>
-        <?php
-        require_once(__DIR__ . '/util/Util.php');
-        $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
-        $docroot = $_ENV['docroot'];
-        $mongodbURI = $_ENV['mongodbURI'];
+require_once(__DIR__ . '/../../vendor/autoload.php');
 
-        Util::hTag(level: 1, text: "Gesundheit Issue Tracker");
-        /* echo "docroot is $docroot.<br />" . PHP_EOL;
-        echo "mongodbURI is $mongodbURI.<br />" . PHP_EOL; */
+/**
+ * Description of HTMLUtil
+ *
+ * @author jwoehr
+ */
+class Util {
 
-        ?>
-    </body>
-</html>
+    /**
+     * Set up dotenv
+     * @param array|string $dirpath director(y|ies) to search for the dotenv environment file
+     * @param string $filename env file name, defaults to ".env"
+     * @return 
+     */
+    public static function loadEnv(array|string $dirpath, string $filename = '.env'): Dotenv\Dotenv {
+        $dotenv = Dotenv\Dotenv::createImmutable(paths: $dirpath, names: $filename);
+        $dotenv->load();
+        return $dotenv;
+    }
+
+    public static function hTag(int $level, string $text, string $cssclass = null, string $id = null): void {
+        echo '<h' . $level . ($id ? ' id="' . $id . '"' : '') . ($cssclass ? ' class="' . $cssclass . '"' : '') . '>'
+        . $text
+        . '</h' . $level . '>' . PHP_EOL;
+    }
+}
