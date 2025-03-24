@@ -1,6 +1,7 @@
+.env
 nbproject/private
-vendor/**
-node_modules/**
+vendor
+scripts/node_modules
 
 
 

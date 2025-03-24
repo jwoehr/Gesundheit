@@ -27,11 +27,17 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Gesundheit Issue Tracker</title>
     </head>
     <body>
         <?php
-        // put your code here
+        require_once(__DIR__ . '/../vendor/autoload.php');
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+        $dotenv->load();
+        $docroot = $_ENV['docroot'];
+        $mongodbURI = $_ENV['mongodbURI'];
+//        echo "docroot is $docroot.<br />" . PHP_EOL;
+//        echo "mongodbURI is $mongodbURI.<br />" . PHP_EOL;
         ?>
     </body>
 </html>
