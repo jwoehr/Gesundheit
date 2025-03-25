@@ -25,21 +25,28 @@
  */
 -->
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Gesundheit Issue Tracker</title>
-    </head>
-    <body>
-        <?php
-        require_once(__DIR__ . '/util/Util.php');
-        $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
-        $docroot = $_ENV['docroot'];
-        $mongodbURI = $_ENV['mongodbURI'];
 
-        Util::hTag(level: 1, text: "Gesundheit Issue Tracker");
-        /* echo "docroot is $docroot.<br />" . PHP_EOL;
-        echo "mongodbURI is $mongodbURI.<br />" . PHP_EOL; */
+<head>
+    <meta charset="UTF-8">
+    <title>Gesundheit Issue Tracker</title>
+</head>
 
-        ?>
-    </body>
+<body>
+    <?php
+    require_once(__DIR__ . '/util/Util.php');
+    $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
+    $docroot = Util::getDotEnv(key: 'docroot');
+    $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
+    $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
+
+    Util::hTag(level: 1, text: "Gesundheit Issue Tracker");
+    /* 
+    echo "docroot is $docroot<br />" . PHP_EOL;
+    echo "mongodb_uri is $mongodb_uri<br />" . PHP_EOL;
+    echo "mongodb_db_name is $mongodb_db_name<br />" . PHP_EOL;
+    */
+    
+    ?>
+</body>
+
 </html>

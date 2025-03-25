@@ -26,7 +26,7 @@
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
 /**
- * Description of HTMLUtil
+ * Util is public static utility routines for working and crafting a page.
  *
  * @author jwoehr
  */
@@ -44,8 +44,35 @@ class Util {
         return $dotenv;
     }
 
-    public static function hTag(int $level, string $text, string $cssclass = null, string $id = null): void {
-        echo '<h' . $level . ($id ? ' id="' . $id . '"' : '') . ($cssclass ? ' class="' . $cssclass . '"' : '') . '>'
+    /**
+     * Test for key existence in dotenv array and if present, return value
+     * @param string $key the sought env value
+     * @return string|null the value or null if key does not exist
+     */
+    public static function getDotEnv(string $key): ?string {
+        $result = null;
+        if (array_key_exists($key, $_ENV)) {
+            $result = $_ENV[$key];
+        }
+        return $result;
+    }
+
+    /**
+     * Emit an h-tag of any level
+     * @param int $level 1 for h1, 2 for h2 ...
+     * @param string $text the inner HTML
+     * @param string $cssclass css class(es), if any
+     * @param string $id id if any
+     * @return void
+     */
+    public static function hTag(
+            int $level,
+            string $text,
+            string $cssclass = null,
+            string $id = null
+    ): void {
+        echo '<h' . $level . ($id ? ' id="' . $id . '"' : '')
+        . ($cssclass ? ' class="' . $cssclass . '"' : '') . '>'
         . $text
         . '</h' . $level . '>' . PHP_EOL;
     }
