@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  */
 require_once(__DIR__ . '/../util/Util.php');
+
 /**
  * DBModel is the database model, application-specific building blocks 
  * implemented in MongoDB.
@@ -31,6 +32,14 @@ require_once(__DIR__ . '/../util/Util.php');
  * @author jwoehr
  */
 class DbModel {
+
+    private ?string $myhost = null;
+    private ?string $mongodb_uri = null;
+    private ?string $mongodb_db_name = null;
+    private ?string $mongodb_cert_path = null;
+    private ?string $mongodb_ca_cert_path = null;
+    private ?MongoDB\Client $mongodb_client = null;
+    private ?MongoDB\Database $mongodb_db = null;
 
     /**
      * Ctor
@@ -60,7 +69,7 @@ class DbModel {
      * Factory New with defaults from dotenv environment
      * @return \DbModel
      */
-    public static function new_DbModel(): DbModel {
+    public static function newDbModel(): DbModel {
         return new DbModel(
                 filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_URL) ?: 'localhost',
                 Util::getDotEnv('mongodb_uri'),
@@ -68,5 +77,157 @@ class DbModel {
                 Util::getDotEnv('mongodb_cert_path'),
                 Util::getDotEnv('$mongodb_ca_cert_path'),
         );
+    }
+
+    /**
+     * Sanitize password out of mongodb uri
+     * @param string $uri to be sanitized
+     * @return string sanitized uri
+     */
+    public static function sanitize_uri(string $uri): string {
+        $uri_tail = substr($uri, strpos($uri, '@'));
+        $uri_stub = substr($uri, 0, strpos($uri, '@'));
+        $uri_head = substr($uri_stub, 0, strrpos($uri_stub, ':') + 1);
+        return $uri_head . 'xxxxxxxx' . $uri_tail;
+    }
+
+    /**
+     * Get sanitized string representation of object
+     * @return string sanitized representation of object
+     */
+    public function __toString(): string {
+        $ext = ($this->mongodb_client ? self::get_mongodb_extension_info() : null);
+        $result = "<br>myhost:          " . $this->myhost . "\n"
+                . "<br>mongodb_uri:     " . $this->sanitize_uri($this->mongodb_uri) . "\n"
+                . "<br>mongodb_db_name: " . $this->mongodb_db_name . "\n"
+                . "<br>mongodb_cert_path: " . $this->mongodb_cert_path . "\n"
+                . "<br>mongodb_ca_cert_path: " . $this->mongodb_ca_cert_path . "\n"
+                . "<br>mongodb_client:  " . ($this->mongodb_client ? $this->sanitize_uri($this->mongodb_client) : '') . "\n"
+                . "<br>mongodb_version: " . ($this->mongodb_client ? $this->get_mongodb_version() : '') . "\n"
+                . "<br>monogodb_extension_name: " . ($ext ? $ext["name"] : 'unavailable') . "\n"
+                . "<br>monogodb_extension_version: " . ($ext ? $ext["version"] : 'unavailable') . "\n"
+                . "<br>monogodb_library_version: " . ($this->mongodb_client ? \Composer\InstalledVersions::getVersion('mongodb/mongodb') : '') . "\n"
+                . "<br>mongodb_db:      " . $this->mongodb_db . "\n";
+        return $result;
+    }
+
+    /**
+     * Get mongodb version.
+     * Note that Atlas obscures the `admin` collection so `system.version` can't be seen.
+     * @return string mongodb version
+     */
+    public function get_mongodb_version(): string {
+        $result = 'Unknown';
+        try {
+            $this->mongodb_db = $this->mongodb_client->selectDatabase('admin');
+            $version_collection = 'system.version';
+            $a = $this->mongodb_db->$version_collection->find(["_id" => 'featureCompatibilityVersion'])->toArray();
+            $result = $a[0]['version'];
+        } catch (Exception $ex) {
+            $result = $ex->getMessage();
+        } finally {
+            $this->mongodb_db = $this->mongodb_client->selectDatabase($this->mongodb_db_name);
+        }
+        return $result;
+    }
+
+    /**
+     * Get version string for mongodb extension
+     * @return string the version string
+     */
+    public static function get_mongodb_extension_info(): array {
+        $ext = new ReflectionExtension('mongodb');
+        return ["name" => $ext->getName(), "version" => $ext->getVersion()];
+    }
+
+    /**
+     * Connect to db
+     */
+    public function connect(): void {
+        if ($this->mongodb_cert_path) {
+            /* When we don't need a cert path to CA-signed MongoDB instance. */
+            if ($this->mongodb_cert_path == 'USE_SERVER_CERT') {
+                $this->mongodb_client = new MongoDB\Client($this->mongodb_uri,
+                        ['tls' => true]);
+                /* 'tls' => true not necessary for mongodb+srv URIs */
+            } else { /* Here's for self-signed certs */
+                $this->mongodb_client = new MongoDB\Client($this->mongodb_uri,
+                        [
+                    'tls' => true,
+                    'tlsCAFile' => $this->mongodb_ca_cert_path,
+                    'tlsCertificateKeyFile' => $this->mongodb_cert_path
+                        ]
+                );
+            }
+        } else {
+            $this->mongodb_client = new MongoDB\Client($this->mongodb_uri);
+        }
+        $this->mongodb_db = $this->mongodb_client->selectDatabase($this->mongodb_db_name);
+    }
+
+    /**
+     * Relinquish current connection to db
+     */
+    public function close(): void {
+        // There's currently no "close" for the MongoDB PHP Driver itself
+        $this->mongodb_db = null;
+        $this->mongodb_client = null;
+    }
+
+    /**
+     * Get name of the mongodb db we use
+     * @return string name of the mongodb db we use
+     */
+    public function get_mongodb_db(): string {
+        return $this->mongodb_db;
+    }
+
+    /**
+     * Get the server host fetched at ctor time
+     * @return string the server host
+     */
+    public function get_my_host(): string {
+        return $this->myhost;
+    }
+
+    /**
+     * Path relative to document root to runtime images.
+     * @return string Path relative to document root to runtime images.
+     */
+    public function get_image_root(): string {
+        return $this->image_root;
+    }
+
+    /**
+     * Get the client object itself
+     * @return object the MongoDB\Client object or null
+     */
+    public function get_client(): ?MongoDB\Client {
+        return $this->mongodb_client;
+    }
+
+    /**
+     * Get current connection to db
+     * @return MongoDB\Database object current db or null
+     */
+    public function get_connection(): ?MongoDB\Database {
+        return $this->mongodb_db;
+    }
+
+    /**
+     * Indicate whether currently connected
+     * @return bool true IFF connected (instanced with a MongoDB\Client object)
+     */
+    public function is_connected(): bool {
+        return $this->get_client() != null;
+    }
+
+    /**
+     * Select and return a Database object for the named database
+     * @param string $dbname name of desired db
+     * @return object a MongoDB\Database object
+     */
+    public function get_database(string $dbname): MongoDB\Database {
+        return $this->mongodb_client->selectDatabase($dbname);
     }
 }
