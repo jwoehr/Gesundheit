@@ -93,7 +93,7 @@ class UserModel {
 
     protected function loadByName(string $name, DbModel $dbmodel): bool {
         $success = false;
-        $doc = $dbmodel->get_user_document_by_name($name);
+        $doc = $dbmodel->get_userdoc_by_name($name);
         if ($doc) {
             $this->fromDoc($doc);
             $success = true;
@@ -103,7 +103,7 @@ class UserModel {
 
     protected function loadByUsernum(int $usernum): bool {
         $success = false;
-        $doc = $dbmodel->get_user_document_by_usernum($usernum);
+        $doc = $dbmodel->get_userdoc_by_usernum($usernum);
         if ($doc) {
             $this->fromDoc($doc);
             $success = true;
@@ -121,9 +121,8 @@ class UserModel {
         return $success;
     }
 
-    public function save(): bool {
-        $success = false;
-        return $success;
+    public function save(DbModel $dbmodel): bool {
+        return $dbmodel->upsert_userdoc($this->toDoc());
     }
 
     //  public static function getUser($user)

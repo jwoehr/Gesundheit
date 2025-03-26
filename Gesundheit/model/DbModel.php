@@ -226,20 +226,26 @@ class DbModel {
         return $this->mongodb_client->selectDatabase(databaseName: $dbname);
     }
 
-    public function get_user_document_by_name(string $name): MongoDB\Model\BSONDocument {
+    public function get_userdoc_by_name(string $name): ?MongoDB\Model\BSONDocument {
         $doc = null;
-        $array = $this->mongodb_db->user->find(["name" => $name])->toArray();
-        if (count($array) > 0) {
-            $doc = $array[0];
+        $obj = $this->mongodb_db->user->find(["name" => $name]);
+        if ($obj) {
+            $array = $obj->toArray();
+            if (count($array) > 0) {
+                $doc = $array[0];
+            }
         }
         return $doc;
     }
 
-    public function get_user_document_by_usernum(int $usernum): MongoDB\Model\BSONDocument {
+    public function get_userdoc_by_usernum(int $usernum): ?MongoDB\Model\BSONDocument {
         $doc = null;
-        $array = $this->mongodb_db->user->find(["usernum" => $usernum])->toArray();
-        if (count($array) > 0) {
-            $doc = $array[0];
+        $obj = $this->mongodb_db->user->find(["usernum" => $usernum]);
+        if ($obj) {
+            $array = $obj->toArray();
+            if (count($array) > 0) {
+                $doc = $array[0];
+            }
         }
         return $doc;
     }
