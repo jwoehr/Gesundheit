@@ -86,42 +86,42 @@ class UserModel {
     }
 
     public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
-        $this->setUsernum($doc->usernum);
-        $this->setName($doc->name);
-        $this->setPassword($doc->password);
+        $this->setUsernum(usernum: $doc->usernum);
+        $this->setName(name: $doc->name);
+        $this->setPassword(password: $doc->password);
     }
 
     protected function loadByName(string $name, DbModel $dbmodel): bool {
         $success = false;
-        $doc = $dbmodel->get_userdoc_by_name($name);
+        $doc = $dbmodel->get_userdoc_by_name(name: $name);
         if ($doc) {
-            $this->fromDoc($doc);
+            $this->fromDoc(doc: $doc);
             $success = true;
         }
         return $success;
     }
 
-    protected function loadByUsernum(int $usernum): bool {
+    protected function loadByUsernum(int $usernum, DbModel $dbmodel): bool {
         $success = false;
-        $doc = $dbmodel->get_userdoc_by_usernum($usernum);
+        $doc = $dbmodel->get_userdoc_by_usernum(usernum: $usernum);
         if ($doc) {
-            $this->fromDoc($doc);
+            $this->fromDoc(doc: $doc);
             $success = true;
         }
         return $success;
     }
 
-    public function load(?string $name, ?int $usernum, DbModel $dbmodel): bool {
+    public function load(DbModel $dbmodel, ?string $name = null, ?int $usernum = null): bool {
         $success = false;
         if ($name) {
-            $success = $this->loadByName($name, $dbmodel);
+            $success = $this->loadByName(name: $name, dbmodel: $dbmodel);
         } elseif ($usernum) {
-            $success = $this->loadByUsernum($usernum, $dbmodel);
+            $success = $this->loadByUsernum(usernum: $usernum, dbmodel: $dbmodel);
         }
         return $success;
     }
 
     public function save(DbModel $dbmodel): bool {
-        return $dbmodel->upsert_userdoc($this->toDoc());
+        return $dbmodel->upsert_userdoc(doc: $this->toDoc());
     }
 }
