@@ -38,10 +38,10 @@ class UserModel {
     private ?string $name;
     private ?string $password;
 
-    public function __construct() {
-        $this->usernum = 0;
-        $this->name = "";
-        $this->password = "";
+    public function __construct(int $usernum = 0, string $name = "", string $password = "") {
+        $this->usernum = $usernum;
+        $this->name = $name;
+        $this->password = $password;
     }
 
     public function __toString(): string {
@@ -124,6 +124,4 @@ class UserModel {
     public function save(DbModel $dbmodel): bool {
         return $dbmodel->upsert_userdoc($this->toDoc());
     }
-
-    //  public static function getUser($user)
 }
