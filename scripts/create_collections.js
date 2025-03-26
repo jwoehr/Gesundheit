@@ -6,9 +6,16 @@
  */
 
 /*
- * node:
- *  require('./create_collections.js');
+ * Create the Gesundheit collections.
+ * node usage:
+ * const { user, issue } = await import("./create_collections.js");
+ *   user('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/?tls=true', 'gesundheit')
+ *   issue('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/?tls=true', 'gesundheit')
  */
+
+export const user = create_user;
+export const issue = create_issue;
+
 import { MongoClient } from "mongodb";
 
 const user_options = {
@@ -144,12 +151,3 @@ async function create_issue(uri, dbname = "gesundheit") {
         console.log("done create_issue()");
     }
 }
-
-/* usage, e.g.:
- * var x = require('./scripts/create_collections.js');
- *   x.user('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit')
- *   x.issue('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit')
- */
-
-export const user = create_user;
-export const issue = create_issue;
