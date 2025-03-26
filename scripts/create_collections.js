@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Jack J. Woehr
+ * Copyright 2025 Jack J. Woehr
  * jwoehr@softwoehr.com
  * MIT License open source example code
  * No warranty, no guarantee!
@@ -9,7 +9,7 @@
  * node:
  *  require('./create_collections.js');
  */
-const { MongoClient } = require("mongodb");
+import { MongoClient } from "mongodb";
 
 const user_options = {
     validator: {
@@ -151,7 +151,5 @@ async function create_issue(uri, dbname = "gesundheit") {
  *   x.issue('mongodb+srv://myuser:mypassword@clusterx-xxxx.mongodb.net/test?tls=true', 'gesundheit')
  */
 
-module.exports = {
-    user: create_user,
-    issue: create_issue,
-};
+export const user = create_user;
+export const issue = create_issue;
