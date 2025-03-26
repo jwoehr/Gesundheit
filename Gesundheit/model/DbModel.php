@@ -178,10 +178,10 @@ class DbModel {
     }
 
     /**
-     * Get name of the mongodb db we use
-     * @return string name of the mongodb db we use
+     * Get mongodb db we use
+     * @return MongoDB\Database instance of the mongodb db we use
      */
-    public function get_mongodb_db(): string {
+    public function get_mongodb_db(): ?MongoDB\Database {
         return $this->mongodb_db;
     }
 
@@ -224,5 +224,35 @@ class DbModel {
      */
     public function get_database(string $dbname): MongoDB\Database {
         return $this->mongodb_client->selectDatabase(databaseName: $dbname);
+    }
+
+    public function get_user_document_by_name(string $name): MongoDB\Model\BSONDocument {
+        $doc = null;
+        $array = $this->mongodb_db->user->find(["name" => $name])->toArray();
+        if (count($array) > 0) {
+            $doc = $array[0];
+        }
+        return $doc;
+    }
+
+    public function get_user_document_by_usernum(int $usernum): MongoDB\Model\BSONDocument {
+        $doc = null;
+        $array = $this->mongodb_db->user->find(["usernum" => $usernum])->toArray();
+        if (count($array) > 0) {
+            $doc = $array[0];
+        }
+        return $doc;
+    }
+
+    public function upsert_userdoc(MongoDB\Model\BSONDocument $doc): bool {
+        $success = $this->mongodb_db->user->updateOne(
+                ['usernum' => $doc['usernum']],
+                ['$set' => $doc],
+                [
+                    'upsert' => true,
+                    'writeConcern' => new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY)
+                ]
+        );
+        return $success->getModifiedCount() > 0 || $success->getUpsertedCount() > 0;
     }
 }

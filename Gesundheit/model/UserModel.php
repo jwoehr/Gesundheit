@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  */
 require_once(__DIR__ . '/../util/Util.php');
+require_once (__DIR__ . '/DbModel.php');
 
 /**
  * UserModel is the user model, application-specific building blocks 
@@ -36,6 +37,19 @@ class UserModel {
     private ?int $usernum;
     private ?string $name;
     private ?string $password;
+
+    public function __construct() {
+        $this->usernum = 0;
+        $this->name = "";
+        $this->password = "";
+    }
+
+    public function __toString(): string {
+        return "UserModel[usernum=" . $this->usernum
+                . ", name=" . $this->name
+                . ", password=" . $this->password
+                . "]";
+    }
 
     public function getUsernum(): ?int {
         return $this->usernum;
@@ -61,22 +75,48 @@ class UserModel {
         $this->password = $password;
     }
 
-    protected function loadByName(?string $name): bool {
+    public function toDoc(): MongoDB\Model\BSONDocument {
+        $doc = new MongoDB\Model\BSONDocument(
+                [
+            'usernum' => $this->getUsernum(),
+            'name' => $this->getName(),
+            'password' => $this->getPassword(),
+        ]);
+        return $doc;
+    }
+
+    public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
+        $this->setUsernum($doc->usernum);
+        $this->setName($doc->name);
+        $this->setPassword($doc->password);
+    }
+
+    protected function loadByName(string $name, DbModel $dbmodel): bool {
         $success = false;
+        $doc = $dbmodel->get_user_document_by_name($name);
+        if ($doc) {
+            $this->fromDoc($doc);
+            $success = true;
+        }
         return $success;
     }
 
-    protected function loadByUsernum(?string $usernum): bool {
+    protected function loadByUsernum(int $usernum): bool {
         $success = false;
+        $doc = $dbmodel->get_user_document_by_usernum($usernum);
+        if ($doc) {
+            $this->fromDoc($doc);
+            $success = true;
+        }
         return $success;
     }
 
-    public function load(?string $name, ?int $usernum): bool {
+    public function load(?string $name, ?int $usernum, DbModel $dbmodel): bool {
         $success = false;
         if ($name) {
-            $success = $this->loadByName($name);
+            $success = $this->loadByName($name, $dbmodel);
         } elseif ($usernum) {
-            $success = $this->loadByUsernum($usernum);
+            $success = $this->loadByUsernum($usernum, $dbmodel);
         }
         return $success;
     }
@@ -85,4 +125,6 @@ class UserModel {
         $success = false;
         return $success;
     }
+
+    //  public static function getUser($user)
 }
