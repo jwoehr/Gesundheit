@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  */
 require_once(__DIR__ . '/../util/Util.php');
+require_once(__DIR__ . '/PostingModel.php');
 
 /**
  * IssueModel is the issue model, application-specific building blocks 
@@ -39,7 +40,7 @@ class IssueModel {
     private array $conversation;
     private bool $resolved;
 
-    public function __construct(int $issue_number = 0, int $usernum = 0, string $description = "", array $conversation = [], bool $resolved = false) {
+    public function __construct(int $issue_number = 0, int $usernum = 0, string $description = "", array $conversation = array(), bool $resolved = false) {
         $this->setIssue_number(issue_number: $issue_number);
         $this->setUsernum(usernum: $usernum);
         $this->setDescription(description: $description);
@@ -51,8 +52,8 @@ class IssueModel {
         return "IssueModel[issue_number=" . $this->issue_number
                 . ", usernum=" . $this->usernum
                 . ", description=" . $this->description
-                . ", conversation=" . $this->conversation
-                . ", resolved=" . $this->resolved
+                . ", conversation=" . print_r($this->conversation, true)
+                . ", resolved=" . ($this->resolved ? "true" : "false")
                 . "]";
     }
 
@@ -92,17 +93,26 @@ class IssueModel {
         $this->conversation = $conversation;
     }
 
+    public function addPosting(PostingModel $posting) {
+        $this->conversation[] = $posting;
+    }
+
     public function setResolved(bool $resolved): void {
         $this->resolved = $resolved;
     }
 
     public function toDoc(): MongoDB\Model\BSONDocument {
+        $conversationDocs = [];
+        foreach ($this->getConversation() as $posting) {
+            $conversationDocs[] = $posting->toDoc();
+        }
+        $conversationBSON = new MongoDB\Model\BSONArray($conversationDocs);
         $doc = new MongoDB\Model\BSONDocument(
                 [
             'issue_number' => $this->getIssue_number(),
             'usernum' => $this->getUsernum(),
             'description' => $this->getDescription(),
-            'conversation' => $this->getConversation(),
+            'conversation' => $conversationBSON,
             'resolved' => $this->getResolved()
         ]);
         return $doc;
@@ -112,7 +122,11 @@ class IssueModel {
         $this->setIssue_number(issue_number: $doc->issue_number);
         $this->setUsernum(usernum: $doc->usernum);
         $this->setDescription(description: $doc->description);
-        $this->setConversation(conversation: $doc->conversation);
+        $conversation = [];
+        foreach ($doc->conversation as $posting) {
+            $conversation[] = (new PostingModel())->fromDoc($posting);
+        }
+        $this->setConversation(conversation: $conversation);
         $this->setResolved(resolved: $doc->resolved);
     }
 

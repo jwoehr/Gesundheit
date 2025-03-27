@@ -26,7 +26,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class DbModelTest extends TestCase {
+class UserModelTest extends TestCase {
 
     private DbModel $dbmodel;
 
