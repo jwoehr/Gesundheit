@@ -275,7 +275,7 @@ class DbModel {
     }
 
     public function upsert_issue(MongoDB\Model\BSONDocument $doc): bool {
-        $success = $this->mongodb_db->user->updateOne(
+        $success = $this->mongodb_db->issue->updateOne(
                 ['issue_number' => $doc['issue_number']],
                 ['$set' => $doc],
                 [
