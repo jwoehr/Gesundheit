@@ -48,7 +48,7 @@ const issue_options = {
             bsonType: "object",
             required: [
                 "issue_number",
-                "user",
+                "usernum",
                 "description",
                 "conversation",
                 "resolved",
@@ -60,7 +60,7 @@ const issue_options = {
                     description: "sequence number",
                 },
                 usernum: {
-                    bsonType: "string",
+                    bsonType: "int",
                     description: "usernum of user who reported issue",
                 },
                 description: {
@@ -71,11 +71,11 @@ const issue_options = {
                     bsonType: "array",
                     items: {
                         bsonType: "object",
-                        required: ["user", "posting"],
+                        required: ["usernum", "posting"],
                         additionalProperties: false,
                         properties: {
                             usernum: {
-                                bsonType: "string",
+                                bsonType: "int",
                                 description: "usernum of user who posted",
                             },
                             posting: {
