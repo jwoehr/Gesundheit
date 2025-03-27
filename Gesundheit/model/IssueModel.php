@@ -47,6 +47,15 @@ class IssueModel {
         $this->setResolved($resolved);
     }
 
+    public function __toString(): string {
+        return "IssueModel[issue_number=" . $this->issue_number
+                . ", usernum=" . $this->usernum
+                . ", description=" . $this->description
+                . ", conversation=" . $this->conversation
+                . ", resolved=" . $this->resolved
+                . "]";
+    }
+
     public function getIssue_number(): int {
         return $this->issue_number;
     }
