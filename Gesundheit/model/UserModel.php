@@ -39,9 +39,9 @@ class UserModel {
     private string $password;
 
     public function __construct(int $usernum = 0, string $name = "", string $password = "") {
-        $this->setUsernum($usernum);
-        $this->setName($name);
-        $this->setPassword($password);
+        $this->setUsernum(usernum: $usernum);
+        $this->setName(name: $name);
+        $this->setPassword(password: $password);
     }
 
     public function __toString(): string {

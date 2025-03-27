@@ -40,11 +40,11 @@ class IssueModel {
     private bool $resolved;
 
     public function __construct(int $issue_number = 0, int $usernum = 0, string $description = "", array $conversation = [], bool $resolved = false) {
-        $this->setIssue_number($issue_number);
-        $this->setUsernum($usernum);
-        $this->setDescription($description);
-        $this->setConversation($conversation);
-        $this->setResolved($resolved);
+        $this->setIssue_number(issue_number: $issue_number);
+        $this->setUsernum(usernum: $usernum);
+        $this->setDescription(description: $description);
+        $this->setConversation(conversation: $conversation);
+        $this->setResolved(resolved: $resolved);
     }
 
     public function __toString(): string {
@@ -109,18 +109,18 @@ class IssueModel {
     }
 
     public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
-        $this->setIssue_number($doc->issue_number);
+        $this->setIssue_number(issue_number: $doc->issue_number);
         $this->setUsernum(usernum: $doc->usernum);
-        $this->setDescription(name: $doc->name);
-        $this->setConversation(password: $doc->password);
-        $this->setResolved($doc->resolved);
+        $this->setDescription(description: $doc->description);
+        $this->setConversation(conversation: $doc->conversation);
+        $this->setResolved(resolved: $doc->resolved);
     }
 
     public function load(int $issue_number, DbModel $dbmodel): bool {
         $success = false;
-        $doc = $dbmodel->get_issue_by_issue_number($issue_number);
+        $doc = $dbmodel->get_issue_by_issue_number(issue_number: $issue_number);
         if ($doc) {
-            $this->fromDoc($doc);
+            $this->fromDoc(doc: $doc);
             $success = true;
         }
         return $success;
