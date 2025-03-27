@@ -23,7 +23,9 @@ if [ "$1" == "-h" ]; then
 	exit 0
 fi
 
+XML_OUTPUT="./test_log/phpunit.junit.$(date +%Y%m%d.%H%M%S).xml"
+
 ./vendor/bin/phpunit --display-incomplete --display-warnings \
 --display-deprecations --display-phpunit-deprecations \
---bootstrap ./autoload_testsuite.php --log-junit ./test/test_log \
+--bootstrap ./autoload_testsuite.php --log-junit ${XML_OUTPUT} \
 test

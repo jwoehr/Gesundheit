@@ -1,7 +1,5 @@
-.env
-nbproject/private
-vendor
-scripts/node_modules
-
-
-
+/.env
+/nbproject/private
+/vendor
+/scripts/node_modules
+/test_log/
