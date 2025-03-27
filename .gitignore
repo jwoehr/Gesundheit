@@ -3,3 +3,4 @@
 /vendor
 /scripts/node_modules
 /test_log/
+/.env_test

@@ -8,9 +8,9 @@
 #
 
 function usage {
-	echo "usage: $0 mongodb_name"
+	echo "usage: $0 mongodb_name [env_filepath]"
 	echo " ... assumes it runs from the top-level dir"
-	echo " ... assumes you have a valid .env file"
+	echo " ... env_dir env_file default to '.' and '.env'"
 }
 
 if [ "$#" -lt 1 ]; then
@@ -22,6 +22,11 @@ if [ "$1" == "-h" ]; then
 	usage
 	exit 0
 fi
+
+GESUNDHEIT_ENV_FILEPATH=${2:-.env}
+GESUNDHEIT_ENV_DIR=`dirname $GESUNDHEIT_ENV_FILEPATH`
+GESUNDHEIT_ENV_FILE=`basename $GESUNDHEIT_ENV_FILEPATH`
+export GESUNDHEIT_ENV_DIR GESUNDHEIT_ENV_FILE
 
 XML_OUTPUT="./test_log/phpunit.junit.$(date +%Y%m%d.%H%M%S).xml"
 

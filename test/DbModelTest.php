@@ -31,7 +31,9 @@ class DbModelTest extends TestCase {
     private DbModel $dbmodel;
 
     protected function setup(): void {
-        Util::loadEnv(__DIR__ . "/..");
+        $env_dir = getenv("GESUNDHEIT_ENV_DIR");
+        $env_file = getenv('GESUNDHEIT_ENV_FILE');
+        Util::loadEnv($env_dir, $env_file);
         $this->dbmodel = DbModel::newDbModel();
         $this->dbmodel->connect();
     }
