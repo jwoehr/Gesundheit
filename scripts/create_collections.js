@@ -59,9 +59,9 @@ const issue_options = {
                     minimum: 1,
                     description: "sequence number",
                 },
-                user: {
+                usernum: {
                     bsonType: "string",
-                    description: "user who reported issue",
+                    description: "usernum of user who reported issue",
                 },
                 description: {
                     bsonType: "string",
@@ -74,9 +74,9 @@ const issue_options = {
                         required: ["user", "posting"],
                         additionalProperties: false,
                         properties: {
-                            user: {
+                            usernum: {
                                 bsonType: "string",
-                                description: "username",
+                                description: "usernum of user who posted",
                             },
                             posting: {
                                 bsonType: "string",
