@@ -34,14 +34,14 @@ require_once (__DIR__ . '/DbModel.php');
  */
 class UserModel {
 
-    private ?int $usernum;
-    private ?string $name;
-    private ?string $password;
+    private int $usernum;
+    private string $name;
+    private string $password;
 
     public function __construct(int $usernum = 0, string $name = "", string $password = "") {
-        $this->usernum = $usernum;
-        $this->name = $name;
-        $this->password = $password;
+        $this->setUsernum($usernum);
+        $this->setName($name);
+        $this->setPassword($password);
     }
 
     public function __toString(): string {
@@ -51,27 +51,27 @@ class UserModel {
                 . "]";
     }
 
-    public function getUsernum(): ?int {
+    public function getUsernum(): int {
         return $this->usernum;
     }
 
-    public function getName(): ?string {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getPassword(): ?string {
+    public function getPassword(): string {
         return $this->password;
     }
 
-    public function setUsernum(?int $usernum): void {
+    public function setUsernum(int $usernum): void {
         $this->usernum = $usernum;
     }
 
-    public function setName(?string $name): void {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
-    public function setPassword(?string $password): void {
+    public function setPassword(string $password): void {
         $this->password = $password;
     }
 

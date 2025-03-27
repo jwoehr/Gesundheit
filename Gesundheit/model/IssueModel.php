@@ -33,59 +33,91 @@ require_once(__DIR__ . '/../util/Util.php');
  */
 class IssueModel {
 
-    private ?int $issue_number;
-    private ?string $user;
-    private ?string $description;
-    private ?string $conversation;
-    private ?string $resolved;
+    private int $issue_number;
+    private int $usernum;
+    private string $description;
+    private array $conversation;
+    private bool $resolved;
 
-    public function getIssue_number(): ?int {
+    public function __construct(int $issue_number = 0, int $usernum = 0, string $description = "", array $conversation = [], bool $resolved = false) {
+        $this->setIssue_number($issue_number);
+        $this->setUsernum($usernum);
+        $this->setDescription($description);
+        $this->setConversation($conversation);
+        $this->setResolved($resolved);
+    }
+
+    public function getIssue_number(): int {
         return $this->issue_number;
     }
 
-    public function getUser(): ?string {
-        return $this->user;
+    public function getUsernum(): int {
+        return $this->usernum;
     }
 
-    public function getDescription(): ?string {
+    public function getDescription(): string {
         return $this->description;
     }
 
-    public function getConversation(): ?string {
+    public function getConversation(): array {
         return $this->conversation;
     }
 
-    public function getResolved(): ?string {
+    public function getResolved(): bool {
         return $this->resolved;
     }
 
-    public function setIssue_number(?int $issue_number): void {
+    public function setIssue_number(int $issue_number): void {
         $this->issue_number = $issue_number;
     }
 
-    public function setUser(?string $user): void {
-        $this->user = $user;
+    public function setUsernum(int $usernum): void {
+        $this->usernum = $usernum;
     }
 
-    public function setDescription(?string $description): void {
+    public function setDescription(string $description): void {
         $this->description = $description;
     }
 
-    public function setConversation(?string $conversation): void {
+    public function setConversation(array $conversation): void {
         $this->conversation = $conversation;
     }
 
-    public function setResolved(?string $resolved): void {
+    public function setResolved(bool $resolved): void {
         $this->resolved = $resolved;
     }
 
-    public function load(?int $issue_number): bool {
+    public function toDoc(): MongoDB\Model\BSONDocument {
+        $doc = new MongoDB\Model\BSONDocument(
+                [
+            'issue_number' => $this->getIssue_number(),
+            'usernum' => $this->getUsernum(),
+            'description' => $this->getDescription(),
+            'conversation' => $this->getConversation(),
+            'resolved' => $this->getResolved()
+        ]);
+        return $doc;
+    }
+
+    public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
+        $this->setIssue_number($doc->issue_number);
+        $this->setUsernum(usernum: $doc->usernum);
+        $this->setDescription(name: $doc->name);
+        $this->setConversation(password: $doc->password);
+        $this->setResolved($doc->resolved);
+    }
+
+    public function load(int $issue_number, DbModel $dbmodel): bool {
         $success = false;
+        $doc = $dbmodel->get_issue_by_issue_number($issue_number);
+        if ($doc) {
+            $this->fromDoc($doc);
+            $success = true;
+        }
         return $success;
     }
 
-    public function save(): bool {
-        $success = false;
-        return $success;
+    public function save(DbModel $dbmodel): bool {
+        return $dbmodel->upsert_issue(doc: $this->toDoc());
     }
 }

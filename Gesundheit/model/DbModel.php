@@ -261,4 +261,28 @@ class DbModel {
         );
         return $success->getModifiedCount() > 0 || $success->getUpsertedCount() > 0;
     }
+    
+    public function get_issue_by_issue_number(int $issue_number): ?MongoDB\Model\BSONDocument {
+        $doc = null;
+        $obj = $this->mongodb_db->issue->find(["issue_number" => $issue_number]);
+        if ($obj) {
+            $array = $obj->toArray();
+            if (count($array) > 0) {
+                $doc = $array[0];
+            }
+        }
+        return $doc;
+    }
+
+    public function upsert_issue(MongoDB\Model\BSONDocument $doc): bool {
+        $success = $this->mongodb_db->user->updateOne(
+                ['issue_number' => $doc['issue_number']],
+                ['$set' => $doc],
+                [
+                    'upsert' => true,
+                    'writeConcern' => new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY)
+                ]
+        );
+        return $success->getModifiedCount() > 0 || $success->getUpsertedCount() > 0;
+    }
 }
