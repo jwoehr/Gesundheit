@@ -52,7 +52,7 @@ class IssueModel {
         return "IssueModel[issue_number=" . $this->issue_number
                 . ", usernum=" . $this->usernum
                 . ", description=" . $this->description
-                . ", conversation=" . print_r($this->conversation, true)
+                . ", conversation=" . print_r(value: $this->conversation, return: true)
                 . ", resolved=" . ($this->resolved ? "true" : "false")
                 . "]";
     }
@@ -93,7 +93,7 @@ class IssueModel {
         $this->conversation = $conversation;
     }
 
-    public function addPosting(PostingModel $posting) {
+    public function addPosting(PostingModel $posting): void {
         $this->conversation[] = $posting;
     }
 
@@ -106,7 +106,7 @@ class IssueModel {
         foreach ($this->getConversation() as $postingModel) {
             $conversationDocs[] = $postingModel->toDoc();
         }
-        $conversationBSON = new MongoDB\Model\BSONArray($conversationDocs);
+        $conversationBSON = new MongoDB\Model\BSONArray(array: $conversationDocs);
         $doc = new MongoDB\Model\BSONDocument(
                 [
             'issue_number' => $this->getIssue_number(),
@@ -124,7 +124,7 @@ class IssueModel {
         $this->setDescription(description: $doc->description);
         $conversation = [];
         foreach ($doc->conversation as $posting) {
-            $conversation[] = (new PostingModel())->fromDoc($posting);
+            $conversation[] = (new PostingModel())->fromDoc(doc: $posting);
         }
         $this->setConversation(conversation: $conversation);
         $this->setResolved(resolved: $doc->resolved);
