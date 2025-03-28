@@ -40,7 +40,7 @@ class IssueModelTest extends TestCase {
 
     public function testIssueModel() {
         $issue = new IssueModel();
-        print($issue);
+        print($issue . PHP_EOL);
         $issue->setIssue_number(1);
         $issue->setUsernum(2);
         $issue->setDescription("This is a test issue");
@@ -49,11 +49,11 @@ class IssueModelTest extends TestCase {
         $conversation[] = new PostingModel(1, "I fixed the issue");
         $issue->setConversation($conversation);
         $issue->setResolved(true);
-        print($issue);
+        print($issue . PHP_EOL);
         $issue->save($this->dbmodel);
         $issue1 = new IssueModel();
         $issue1->load(dbmodel: $this->dbmodel, issue_number: 1);
-        print($issue1);
+        print($issue1 . PHP_EOL);
         $issue1->setIssue_number(2);
         $issue1->setUsernum(1);
         $issue1->setDescription("This is another test issue");
@@ -62,14 +62,16 @@ class IssueModelTest extends TestCase {
         $conversation[] = new PostingModel(1, "I have not fixed the new issue");
         $issue1->setConversation($conversation);
         $issue1->setResolved(false);
+        print($issue1 . PHP_EOL);
         $issue1->save($this->dbmodel);
         $issue->load(dbmodel: $this->dbmodel, issue_number: 2);
-        print($issue);
+        print($issue . PHP_EOL);
         $output_string = <<<END
 IssueModel[issue_number=0, usernum=0, description=, conversation=Array
 (
 )
-, resolved=false]IssueModel[issue_number=1, usernum=2, description=This is a test issue, conversation=Array
+, resolved=false]
+IssueModel[issue_number=1, usernum=2, description=This is a test issue, conversation=Array
 (
     [0] => PostingModel Object
         (
@@ -84,17 +86,56 @@ IssueModel[issue_number=0, usernum=0, description=, conversation=Array
         )
 
 )
-, resolved=true]IssueModel[issue_number=1, usernum=2, description=This is a test issue, conversation=Array
+, resolved=true]
+IssueModel[issue_number=1, usernum=2, description=This is a test issue, conversation=Array
 (
-    [0] => 
-    [1] => 
+    [0] => PostingModel Object
+        (
+            [usernum:PostingModel:private] => 2
+            [posting:PostingModel:private] => I had an issue
+        )
+
+    [1] => PostingModel Object
+        (
+            [usernum:PostingModel:private] => 1
+            [posting:PostingModel:private] => I fixed the issue
+        )
+
 )
-, resolved=true]IssueModel[issue_number=2, usernum=1, description=This is another test issue, conversation=Array
+, resolved=true]
+IssueModel[issue_number=2, usernum=1, description=This is another test issue, conversation=Array
 (
-    [0] => 
-    [1] => 
+    [0] => PostingModel Object
+        (
+            [usernum:PostingModel:private] => 1
+            [posting:PostingModel:private] => I had a new issue
+        )
+
+    [1] => PostingModel Object
+        (
+            [usernum:PostingModel:private] => 1
+            [posting:PostingModel:private] => I have not fixed the new issue
+        )
+
 )
 , resolved=false]
+IssueModel[issue_number=2, usernum=1, description=This is another test issue, conversation=Array
+(
+    [0] => PostingModel Object
+        (
+            [usernum:PostingModel:private] => 1
+            [posting:PostingModel:private] => I had a new issue
+        )
+
+    [1] => PostingModel Object
+        (
+            [usernum:PostingModel:private] => 1
+            [posting:PostingModel:private] => I have not fixed the new issue
+        )
+
+)
+, resolved=false]
+
 END;
         $this->expectOutputString($output_string);
     }
