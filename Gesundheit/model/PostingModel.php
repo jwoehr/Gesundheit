@@ -23,6 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.s
  */
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 class PostingModel {
 
