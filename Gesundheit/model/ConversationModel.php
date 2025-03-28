@@ -77,4 +77,15 @@ class ConversationModel {
         }
         $this->setPostings($postings);
     }
+    
+    /**
+     * Factory a new ConversationModel from a "doc"  (i.e., BSONArray)
+     * @param MongoDB\Model\BSONArray $doc created from a Conversation Model
+     * @return ConversationModel
+     */
+    public static function newFromDoc(MongoDB\Model\BSONArray $doc): ConversationModel {
+        $conversation = new ConversationModel();
+        $conversation->fromDoc($doc);
+        return $conversation;
+    }
 }
