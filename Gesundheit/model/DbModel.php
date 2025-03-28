@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-require_once(__DIR__ . '/../util/Util.php');
+require_once __DIR__ . '/../util/Util.php';
 
 /**
  * DBModel is the database model, application-specific building blocks 
@@ -261,7 +261,7 @@ class DbModel {
         );
         return $success->getModifiedCount() > 0 || $success->getUpsertedCount() > 0;
     }
-    
+
     public function get_issue_by_issue_number(int $issue_number): ?MongoDB\Model\BSONDocument {
         $doc = null;
         $obj = $this->mongodb_db->issue->find(["issue_number" => $issue_number]);

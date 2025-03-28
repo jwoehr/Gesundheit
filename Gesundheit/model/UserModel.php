@@ -23,8 +23,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-require_once(__DIR__ . '/../util/Util.php');
-require_once (__DIR__ . '/DbModel.php');
+require_once __DIR__ . '/../util/Util.php';
+require_once __DIR__ . '/DbModel.php';
 
 /**
  * UserModel is the user model, application-specific building blocks 
