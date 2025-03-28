@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-require_once(__DIR__ . '/../../vendor/autoload.php');
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * Util is public static utility routines for working and crafting a page.
