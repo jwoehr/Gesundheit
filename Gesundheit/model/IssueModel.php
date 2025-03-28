@@ -103,8 +103,8 @@ class IssueModel {
 
     public function toDoc(): MongoDB\Model\BSONDocument {
         $conversationDocs = [];
-        foreach ($this->getConversation() as $posting) {
-            $conversationDocs[] = $posting->toDoc();
+        foreach ($this->getConversation() as $postingModel) {
+            $conversationDocs[] = $postingModel->toDoc();
         }
         $conversationBSON = new MongoDB\Model\BSONArray($conversationDocs);
         $doc = new MongoDB\Model\BSONDocument(
