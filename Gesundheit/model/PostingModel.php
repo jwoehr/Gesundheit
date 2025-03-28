@@ -30,8 +30,8 @@ class PostingModel {
     private string $posting;
 
     public function __construct(int $usernum = 0, string $posting = "") {
-        $this->setUsernum($usernum);
-        $this->setPosting($posting);
+        $this->setUsernum(usernum: $usernum);
+        $this->setPosting(posting: $posting);
     }
 
     public function getUsernum(): int {
@@ -55,11 +55,12 @@ class PostingModel {
      * @return \MongoDB\Model\BSONDocument this ConversationModel instance as BSONDocument
      */
     public function toDoc(): MongoDB\Model\BSONDocument {
-        return new MongoDB\Model\BSONDocument(['usernum' => $this->getUsernum(), 'posting' => $this->getPosting()]);
+        return new MongoDB\Model\BSONDocument(input: ['usernum' => $this->getUsernum(), 'posting' => $this->getPosting()]);
     }
 
-    public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
-        $this->setUsernum($doc->usernum);
-        $this->setPosting($this->posting);
+    public function fromDoc(MongoDB\Model\BSONDocument $doc): PostingModel {
+        $this->setUsernum(usernum: $doc->usernum);
+        $this->setPosting(posting: $doc->posting);
+        return $this;
     }
 }
