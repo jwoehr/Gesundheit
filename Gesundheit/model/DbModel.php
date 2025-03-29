@@ -331,7 +331,7 @@ class DbModel {
                 )->toArray();
     }
 
-    public function all_issues_user_lookup(): array {
+    public function issue_user_lookup_all(): array {
         return $this->mongodb_db->issue->aggregate(
                         [
                             ['$project' =>

@@ -26,6 +26,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+require_once __DIR__ . '/data/DbModelTestData.php';
+
 class DbModelTest extends TestCase {
 
     private DbModel $dbmodel;
@@ -39,7 +41,11 @@ class DbModelTest extends TestCase {
     }
 
     public function testIssueUserLookup() {
-        $this->assertEquals(self::EXAMPLE_LOOKUP, print_r($this->dbmodel->issue_user_lookup(1), true));
+        $this->assertEquals(DbModelTestData::EXAMPLE_LOOKUP_1, print_r($this->dbmodel->issue_user_lookup(1), true));
+    }
+
+    public function testIssueUserLookupAll() {
+        $this->assertEquals(DbModelTestData::EXAMPLE_LOOKUP_ALL, print_r($this->dbmodel->issue_user_lookup_all(), true));
     }
 
     protected function tearDown(): void {
@@ -48,66 +54,4 @@ class DbModelTest extends TestCase {
         }
         unset($this->dbmodel);
     }
-
-    const EXAMPLE_LOOKUP = 'Array
-(
-    [0] => MongoDB\Model\BSONDocument Object
-        (
-            [storage:ArrayObject:private] => Array
-                (
-                    [issue_number] => 1
-                    [conversation] => MongoDB\Model\BSONArray Object
-                        (
-                            [storage:ArrayObject:private] => Array
-                                (
-                                    [0] => MongoDB\Model\BSONDocument Object
-                                        (
-                                            [storage:ArrayObject:private] => Array
-                                                (
-                                                    [usernum] => 2
-                                                    [posting] => I had an issue
-                                                )
-
-                                        )
-
-                                    [1] => MongoDB\Model\BSONDocument Object
-                                        (
-                                            [storage:ArrayObject:private] => Array
-                                                (
-                                                    [usernum] => 1
-                                                    [posting] => I fixed the issue
-                                                )
-
-                                        )
-
-                                )
-
-                        )
-
-                    [description] => This is a test issue
-                    [resolved] => 1
-                    [usernum] => 2
-                    [user] => MongoDB\Model\BSONArray Object
-                        (
-                            [storage:ArrayObject:private] => Array
-                                (
-                                    [0] => MongoDB\Model\BSONDocument Object
-                                        (
-                                            [storage:ArrayObject:private] => Array
-                                                (
-                                                    [name] => sumi
-                                                )
-
-                                        )
-
-                                )
-
-                        )
-
-                )
-
-        )
-
-)
-';
 }
