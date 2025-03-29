@@ -54,7 +54,7 @@ class ConversationModel {
 
     /**
      * Yield "doc" (i.e., BSONArray) from this ConversationModel instance
-     * @return \MongoDB\Model\BSONDocument this ConversationModel instance as BSONDocument
+     * @return \MongoDB\Model\BSONArray this ConversationModel instance as BSONArray
      */
     public function toDoc(): MongoDB\Model\BSONArray {
         $postingstodoc = [];
@@ -66,7 +66,7 @@ class ConversationModel {
 
     /**
      * Instance this ConversationModel from a "doc" (i.e., BSONArray)
-     * @param MongoDB\Model\BSONDArray $doc
+     * @param MongoDB\Model\BSONArray $doc
      * @return void
      */
     public function fromDoc(MongoDB\Model\BSONArray $doc): void {
@@ -75,17 +75,17 @@ class ConversationModel {
             $postingmodel = (new PostingModel())->fromDoc($item);
             $postings[] = $postingmodel;
         }
-        $this->setPostings($postings);
+        $this->setPostings(postings: $postings);
     }
     
     /**
      * Factory a new ConversationModel from a "doc"  (i.e., BSONArray)
      * @param MongoDB\Model\BSONArray $doc created from a Conversation Model
-     * @return ConversationModel
+     * @return ConversationModel factoried instance
      */
     public static function newFromDoc(MongoDB\Model\BSONArray $doc): ConversationModel {
         $conversation = new ConversationModel();
-        $conversation->fromDoc($doc);
+        $conversation->fromDoc(doc: $doc);
         return $conversation;
     }
 }

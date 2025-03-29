@@ -40,18 +40,18 @@ class ConversationModelTest extends TestCase {
         $this->dbmodel->connect();
     }
 
-    public function testConversationModel() {
+    public function testConversationModel(): void {
         $c = new ConversationModel();
-        $this->assertEquals(ConversationModelTestData::C_NEW, print_r($c, true));
-        $p0 = new PostingModel(2, "I had an issue");
-        $p1 = new PostingModel(1, "I fixed the issue");
-        $c->addPosting($p0);
-        $c->addPosting($p1);
-        $this->assertEquals(ConversationModelTestData::C_WITH_POSTINGS, print_r($c, true));
+        $this->assertEquals(expected: ConversationModelTestData::C_NEW, actual: print_r(value: $c, return: true));
+        $p0 = new PostingModel(usernum: 2, posting: "I had an issue");
+        $p1 = new PostingModel(usernum: 1, posting: "I fixed the issue");
+        $c->addPosting(postingmodel: $p0);
+        $c->addPosting(postingmodel: $p1);
+        $this->assertEquals(expected: ConversationModelTestData::C_WITH_POSTINGS, actual: print_r(value: $c, return: true));
         $d = $c->toDoc();
-        $this->assertEquals(ConversationModelTestData::D_DOC, print_r($d, true));
-        $c1 = ConversationModel::newFromDoc($d);
-        $this->assertEquals(ConversationModelTestData::C1_FROM_DOC, print_r($c1, true));
+        $this->assertEquals(expected: ConversationModelTestData::D_DOC, actual: print_r(value: $d, return: true));
+        $c1 = ConversationModel::newFromDoc(doc: $d);
+        $this->assertEquals(expected: ConversationModelTestData::C1_FROM_DOC, actual: print_r(value: $c1, return: true));
     }
 
     protected function tearDown(): void {
