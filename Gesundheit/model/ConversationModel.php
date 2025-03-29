@@ -72,7 +72,7 @@ class ConversationModel {
     public function fromDoc(MongoDB\Model\BSONArray $doc): void {
         $postings = [];
         foreach ($doc as $item) {
-            $postingmodel = (new PostingModel())->fromDoc($item);
+            $postingmodel = (new PostingModel())->fromDoc(doc: $item);
             $postings[] = $postingmodel;
         }
         $this->setPostings(postings: $postings);
