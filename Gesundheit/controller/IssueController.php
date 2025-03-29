@@ -24,9 +24,24 @@
  * THE SOFTWARE.
  */
 
-// Requires for PHPUnit testing, see ../scripts/runtests.sh
-require_once __DIR__ . '/Gesundheit/model/ConversationModel.php';
-require_once __DIR__ . '/Gesundheit/model/DbModel.php';
-require_once __DIR__ . '/Gesundheit/model/IssueModel.php';
-require_once __DIR__ . '/Gesundheit/model/PostingModel.php';
-require_once __DIR__ . '/Gesundheit/model/UserModel.php';
+require_once __DIR__ . "../model/DbModel";
+require_once __DIR__ . "../model/UserModel";
+require_once __DIR__ . "../model/IssueModel";
+require_once __DIR__ . "../model/PostingModel";
+require_once __DIR__ . "../model/ConversationModel";
+
+class IssueController {
+
+    public function summaryData(int $issue_number, DbModel $dbmodel): ?IssueModel {
+        $issuemodel = null;
+
+        $rawArray = $dbmodel->issue_user_lookup($issue_number);
+        if (!empty($rawArray)) {
+            $issuemodel = new IssueModel;
+            $conversationmodel = new ConversationModel();
+            
+            
+        }
+        return $issuemodel;
+    }
+}

@@ -26,9 +26,9 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/data/IssueModelTestData.php';
+require_once __DIR__ . '/data/ConversationModelTestData.php';
 
-class IssueModelTest extends TestCase {
+class ConversationModelTest extends TestCase {
 
     private DbModel $dbmodel;
 
@@ -40,32 +40,18 @@ class IssueModelTest extends TestCase {
         $this->dbmodel->connect();
     }
 
-    public function testIssueModel() {
-        $issue = new IssueModel();
-        $this->assertEquals(IssueModelTestData::ISSUE_NEW, print_r($issue, true));
-        $issue->setIssue_number(1);
-        $issue->setUsernum(2);
-        $issue->setDescription("This is a test issue");
+    public function testConversationModel() {
+        $c = new ConversationModel();
+        $this->assertEquals(ConversationModelTestData::C_NEW, print_r($c, true));
         $p0 = new PostingModel(2, "I had an issue");
         $p1 = new PostingModel(1, "I fixed the issue");
-        $issue->setConversation(new ConversationModel([$p0, $p1]));
-        $issue->setResolved(true);
-        $this->assertEquals(IssueModelTestData::ISSUE_WITH_DATA, print_r($issue, true));
-        $issue->save($this->dbmodel);
-        $issue1 = new IssueModel();
-        $this->assertTrue($issue1->load(dbmodel: $this->dbmodel, issue_number: 1));
-        $this->assertEquals(IssueModelTestData::ISSUE_WITH_DATA, print_r($issue1, true));
-        $issue1->setIssue_number(2);
-        $issue1->setUsernum(1);
-        $issue1->setDescription("This is another test issue");
-        $p2 = new PostingModel(1, "I had a new issue");
-        $p3 = new PostingModel(1, "I have not fixed the new issue");
-        $issue1->setConversation(new ConversationModel([$p2, $p3]));
-        $issue1->setResolved(false);
-        $this->assertEquals(IssueModelTestData::ISSUE1_WITH_DATA, print_r($issue1, true));
-        $issue1->save($this->dbmodel);
-        $issue->load(dbmodel: $this->dbmodel, issue_number: 2);
-        $this->assertEquals(IssueModelTestData::ISSUE1_WITH_DATA, print_r($issue1, true));
+        $c->addPosting($p0);
+        $c->addPosting($p1);
+        $this->assertEquals(ConversationModelTestData::C_WITH_POSTINGS, print_r($c, true));
+        $d = $c->toDoc();
+        $this->assertEquals(ConversationModelTestData::D_DOC, print_r($d, true));
+        $c1 = ConversationModel::newFromDoc($d);
+        $this->assertEquals(ConversationModelTestData::C1_FROM_DOC, print_r($c1, true));
     }
 
     protected function tearDown(): void {
