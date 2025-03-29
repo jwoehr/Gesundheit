@@ -33,39 +33,39 @@ class IssueModelTest extends TestCase {
     private DbModel $dbmodel;
 
     protected function setup(): void {
-        $env_dir = getenv("GESUNDHEIT_ENV_DIR");
-        $env_file = getenv('GESUNDHEIT_ENV_FILE');
-        Util::loadEnv($env_dir, $env_file);
+        $env_dir = getenv(name: "GESUNDHEIT_ENV_DIR");
+        $env_file = getenv(name: 'GESUNDHEIT_ENV_FILE');
+        Util::loadEnv(dirpath: $env_dir, filename: $env_file);
         $this->dbmodel = DbModel::newDbModel();
         $this->dbmodel->connect();
     }
 
-    public function testIssueModel() {
+    public function testIssueModel(): void {
         $issue = new IssueModel();
-        $this->assertEquals(IssueModelTestData::ISSUE_NEW, print_r($issue, true));
-        $issue->setIssue_number(1);
-        $issue->setUsernum(2);
-        $issue->setDescription("This is a test issue");
-        $p0 = new PostingModel(2, "I had an issue");
-        $p1 = new PostingModel(1, "I fixed the issue");
-        $issue->setConversation(new ConversationModel([$p0, $p1]));
-        $issue->setResolved(true);
-        $this->assertEquals(IssueModelTestData::ISSUE_WITH_DATA, print_r($issue, true));
-        $issue->save($this->dbmodel);
+        $this->assertEquals(expected: IssueModelTestData::ISSUE_NEW, actual: print_r(value: $issue, return: true));
+        $issue->setIssue_number(issue_number: 1);
+        $issue->setUsernum(usernum: 2);
+        $issue->setDescription(description: "This is a test issue");
+        $p0 = new PostingModel(usernum: 2, posting: "I had an issue");
+        $p1 = new PostingModel(usernum: 1, posting: "I fixed the issue");
+        $issue->setConversation(conversation: new ConversationModel(postings: [$p0, $p1]));
+        $issue->setResolved(resolved: true);
+        $this->assertEquals(expected: IssueModelTestData::ISSUE_WITH_DATA, actual: print_r(value: $issue, return: true));
+        $issue->save(dbmodel: $this->dbmodel);
         $issue1 = new IssueModel();
-        $this->assertTrue($issue1->load(dbmodel: $this->dbmodel, issue_number: 1));
-        $this->assertEquals(IssueModelTestData::ISSUE_WITH_DATA, print_r($issue1, true));
-        $issue1->setIssue_number(2);
-        $issue1->setUsernum(1);
-        $issue1->setDescription("This is another test issue");
-        $p2 = new PostingModel(1, "I had a new issue");
-        $p3 = new PostingModel(1, "I have not fixed the new issue");
-        $issue1->setConversation(new ConversationModel([$p2, $p3]));
-        $issue1->setResolved(false);
-        $this->assertEquals(IssueModelTestData::ISSUE1_WITH_DATA, print_r($issue1, true));
+        $this->assertTrue(condition: $issue1->load(dbmodel: $this->dbmodel, issue_number: 1));
+        $this->assertEquals(expected: IssueModelTestData::ISSUE_WITH_DATA, actual: print_r(value: $issue1, return: true));
+        $issue1->setIssue_number(issue_number: 2);
+        $issue1->setUsernum(usernum: 1);
+        $issue1->setDescription(description: "This is another test issue");
+        $p2 = new PostingModel(usernum: 1, posting: "I had a new issue");
+        $p3 = new PostingModel(usernum: 1, posting: "I have not fixed the new issue");
+        $issue1->setConversation(conversation: new ConversationModel(postings: [$p2, $p3]));
+        $issue1->setResolved(resolved: false);
+        $this->assertEquals(expected: IssueModelTestData::ISSUE1_WITH_DATA, actual: print_r(value: $issue1, return: true));
         $issue1->save($this->dbmodel);
         $issue->load(dbmodel: $this->dbmodel, issue_number: 2);
-        $this->assertEquals(IssueModelTestData::ISSUE1_WITH_DATA, print_r($issue1, true));
+        $this->assertEquals(expected: IssueModelTestData::ISSUE1_WITH_DATA, actual: print_r(value: $issue1, return: true));
     }
 
     protected function tearDown(): void {
