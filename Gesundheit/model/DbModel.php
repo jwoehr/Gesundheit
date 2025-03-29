@@ -295,7 +295,6 @@ class DbModel {
      * that has one entry, user, which is an array with one entry, the `name`.
      */
     public function issue_user_lookup(int $issue_number): array {
-        $issue_factors = [];
         return $this->mongodb_db->issue->aggregate(
                         [
                             ['$match' => ['issue_number' => $issue_number]],
@@ -306,7 +305,8 @@ class DbModel {
                                     'description' => true,
                                     'conversation' => true,
                                     'resolved' => true,
-                                ]],
+                                ]
+                            ],
                             ['$lookup' =>
                                 [
                                     'from' => 'user',
@@ -316,6 +316,43 @@ class DbModel {
                                                 ['$eq' =>
                                                     ['$usernum', '$$sought_usernum']
                                                 ]
+                                            ]
+                                        ],
+                                        ['$project' => [
+                                                '_id' => false,
+                                                'name' => true
+                                            ]
+                                        ]
+                                    ],
+                                    'as' => 'user'
+                                ]
+                            ],
+                        ]
+                )->toArray();
+    }
+
+    public function all_issues_user_lookup(): array {
+        return $this->mongodb_db->issue->aggregate(
+                        [
+                            ['$project' =>
+                                [
+                                    '_id' => false,
+                                    'issue_number' => true,
+                                    'usernum' => true,
+                                    'description' => true,
+                                    'conversation' => true,
+                                    'resolved' => true,
+                                ]
+                            ],
+                            ['$lookup' =>
+                                [
+                                    'from' => 'user',
+                                    'let' => ['sought_usernum' => '$usernum'],
+                                    'pipeline' =>
+                                    [
+                                        ['$match' =>
+                                            ['$expr' =>
+                                                ['$eq' => ['$usernum', '$$sought_usernum']]
                                             ]
                                         ],
                                         ['$project' => [
