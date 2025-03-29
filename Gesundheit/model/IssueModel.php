@@ -99,7 +99,7 @@ class IssueModel {
     }
 
     public function addPosting(PostingModel $posting): void {
-        $this->conversation[] = $posting;
+        $this->conversation->addPosting(postingmodel: $posting);
     }
 
     public function setResolved(bool $resolved): void {
@@ -123,7 +123,7 @@ class IssueModel {
         $this->setIssue_number(issue_number: $doc->issue_number);
         $this->setUsernum(usernum: $doc->usernum);
         $this->setDescription(description: $doc->description);
-        $this->setConversation(ConversationModel::newFromDoc($doc->conversation));
+        $this->setConversation(conversation: ConversationModel::newFromDoc(doc: $doc->conversation));
         $this->setResolved(resolved: $doc->resolved);
     }
 
