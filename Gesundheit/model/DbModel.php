@@ -238,7 +238,7 @@ class DbModel {
         $obj = $this->mongodb_db->user->find(["name" => $name]);
         if ($obj) {
             $array = $obj->toArray();
-            if (count($array) > 0) {
+            if (count(value: $array) > 0) {
                 $doc = $array[0];
             }
         }
@@ -255,7 +255,7 @@ class DbModel {
         $obj = $this->mongodb_db->user->find(["usernum" => $usernum]);
         if ($obj) {
             $array = $obj->toArray();
-            if (count($array) > 0) {
+            if (count(value: $array) > 0) {
                 $doc = $array[0];
             }
         }
@@ -289,7 +289,7 @@ class DbModel {
         $obj = $this->mongodb_db->issue->find(["issue_number" => $issue_number]);
         if ($obj) {
             $array = $obj->toArray();
-            if (count($array) > 0) {
+            if (count(value: $array) > 0) {
                 $doc = $array[0];
             }
         }
