@@ -228,6 +228,11 @@ class DbModel {
         return $this->mongodb_client->selectDatabase(databaseName: $dbname);
     }
 
+    /**
+     * Get a user document by name of user
+     * @param string $name the user name
+     * @return MongoDB\Model\BSONDocument|null the user doc if found
+     */
     public function get_userdoc_by_name(string $name): ?MongoDB\Model\BSONDocument {
         $doc = null;
         $obj = $this->mongodb_db->user->find(["name" => $name]);
@@ -240,6 +245,11 @@ class DbModel {
         return $doc;
     }
 
+    /**
+     * Get a user document by number of user
+     * @param int $usernum the user number
+     * @return MongoDB\Model\BSONDocument|null he user doc if found
+     */
     public function get_userdoc_by_usernum(int $usernum): ?MongoDB\Model\BSONDocument {
         $doc = null;
         $obj = $this->mongodb_db->user->find(["usernum" => $usernum]);
@@ -252,6 +262,11 @@ class DbModel {
         return $doc;
     }
 
+    /**
+     * Upsert a user doc
+     * @param MongoDB\Model\BSONDocument $doc the doc
+     * @return bool success
+     */
     public function upsert_userdoc(MongoDB\Model\BSONDocument $doc): bool {
         $success = $this->mongodb_db->user->updateOne(
                 ['usernum' => $doc['usernum']],
@@ -264,6 +279,11 @@ class DbModel {
         return $success->getModifiedCount() > 0 || $success->getUpsertedCount() > 0;
     }
 
+    /**
+     * Get an issue by issue number
+     * @param int $issue_number the issue number
+     * @return MongoDB\Model\BSONDocument|null the doc
+     */
     public function get_issue_by_issue_number(int $issue_number): ?MongoDB\Model\BSONDocument {
         $doc = null;
         $obj = $this->mongodb_db->issue->find(["issue_number" => $issue_number]);
@@ -276,6 +296,11 @@ class DbModel {
         return $doc;
     }
 
+    /**
+     * Upsert an issue doc
+     * @param MongoDB\Model\BSONDocument $doc the doc
+     * @return bool success
+     */
     public function upsert_issue(MongoDB\Model\BSONDocument $doc): bool {
         $success = $this->mongodb_db->issue->updateOne(
                 ['issue_number' => $doc['issue_number']],
@@ -291,7 +316,7 @@ class DbModel {
     /**
      * Joins the issue creator's name to the issue data
      * @param int $issue_number the issue
-     * @return array containing the issue data and an array field `user`
+     * @return array containing the issue data and an array subfield `user`
      * that has one entry, user, which is an array with one entry, the `name`.
      */
     public function issue_user_lookup(int $issue_number): array {
@@ -331,6 +356,11 @@ class DbModel {
                 )->toArray();
     }
 
+    /**
+     * Joins the issue creator's name to the issue data for all issues
+     * @return array containing all issues' data each with an array subfield `user`
+     * that has one entry, user, which is an array with one entry, the `name`.
+     */
     public function issue_user_lookup_all(): array {
         return $this->mongodb_db->issue->aggregate(
                         [
