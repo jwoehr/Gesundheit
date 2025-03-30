@@ -31,3 +31,4 @@ require_once __DIR__ . '/Gesundheit/model/IssueModel.php';
 require_once __DIR__ . '/Gesundheit/model/PostingModel.php';
 require_once __DIR__ . '/Gesundheit/model/UserModel.php';
 require_once __DIR__ . '/Gesundheit/controller/IssueController.php';
+require_once __DIR__ . '/Gesundheit/util/Util.php';
