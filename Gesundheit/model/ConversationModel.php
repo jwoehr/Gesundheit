@@ -40,6 +40,14 @@ class ConversationModel {
         $this->setPostings($postings);
     }
 
+    public function __tostring(): string {
+        $out = '';
+        foreach ($this->getPostings() as $posting) {
+            $out .= strval(value: $posting) . "\n";
+        }
+        return $out;
+    }
+
     public function getPostings(): array {
         return $this->postings;
     }
@@ -77,7 +85,7 @@ class ConversationModel {
         }
         $this->setPostings(postings: $postings);
     }
-    
+
     /**
      * Factory a new ConversationModel from a "doc"  (i.e., BSONArray)
      * @param MongoDB\Model\BSONArray $doc created from a Conversation Model

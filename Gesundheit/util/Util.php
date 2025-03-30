@@ -90,6 +90,7 @@ class Util {
             $out .= self::htmlTableData($datum);
         }
         $out .= "</tr>";
+        return $out;
     }
 
     public static function htmlTableData(string $data): string {

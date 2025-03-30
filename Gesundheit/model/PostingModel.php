@@ -35,6 +35,11 @@ class PostingModel {
         $this->setPosting(posting: $posting);
     }
 
+    public function __toString(): string {
+        $out = "User number {$this->getUsernum()} said:\n{$this->getPosting()}";
+        return $out;
+    }
+
     public function getUsernum(): int {
         return $this->usernum;
     }
