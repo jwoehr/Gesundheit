@@ -10,7 +10,7 @@
 function usage {
 	echo "usage: $0 mongodb_name [env_filepath]"
 	echo " ... assumes it runs from the top-level dir"
-	echo " ... env_dir env_file default to '.' and '.env'"
+	echo " ... env_filepath defaults to './.env'"
 }
 
 if [ "$#" -lt 1 ]; then
