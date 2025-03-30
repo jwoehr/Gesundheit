@@ -24,12 +24,31 @@
  * THE SOFTWARE.
  */
 
-// Requires for PHPUnit testing, see ../scripts/runtests.sh
-require_once __DIR__ . '/Gesundheit/util/Util.php';
-require_once __DIR__ . '/Gesundheit/model/ConversationModel.php';
-require_once __DIR__ . '/Gesundheit/model/DbModel.php';
-require_once __DIR__ . '/Gesundheit/model/IssueModel.php';
-require_once __DIR__ . '/Gesundheit/model/PostingModel.php';
-require_once __DIR__ . '/Gesundheit/model/UserModel.php';
-require_once __DIR__ . '/Gesundheit/controller/IssueController.php';
-require_once __DIR__ . '/Gesundheit/view/IssueView.php';
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/data/IssueViewTestData.php';
+
+class IssueViewTest extends TestCase {
+
+    private DbModel $dbmodel;
+
+    protected function setup(): void {
+        $env_dir = getenv("GESUNDHEIT_ENV_DIR");
+        $env_file = getenv('GESUNDHEIT_ENV_FILE');
+        Util::loadEnv($env_dir, $env_file);
+        $this->dbmodel = DbModel::newDbModel();
+        $this->dbmodel->connect();
+    }
+
+    public function testIssueTableRow1(): void {
+        $im = IssueController::getIssue(1, $this->dbmodel);
+        $this->assertEquals(expected: IssueViewTestData::ISSUE_TABLE_ROW_1, actual: print_r(value: IssueView::issueTableRow($im), return: true));
+    }
+
+    protected function tearDown(): void {
+        if ($this->dbmodel) {
+            $this->dbmodel->close();
+        }
+        unset($this->dbmodel);
+    }
+}

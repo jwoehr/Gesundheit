@@ -24,12 +24,16 @@
  * THE SOFTWARE.
  */
 
-// Requires for PHPUnit testing, see ../scripts/runtests.sh
-require_once __DIR__ . '/Gesundheit/util/Util.php';
-require_once __DIR__ . '/Gesundheit/model/ConversationModel.php';
-require_once __DIR__ . '/Gesundheit/model/DbModel.php';
-require_once __DIR__ . '/Gesundheit/model/IssueModel.php';
-require_once __DIR__ . '/Gesundheit/model/PostingModel.php';
-require_once __DIR__ . '/Gesundheit/model/UserModel.php';
-require_once __DIR__ . '/Gesundheit/controller/IssueController.php';
-require_once __DIR__ . '/Gesundheit/view/IssueView.php';
+/**
+ * Data for IssueControllerTest
+ *
+ * @author jwoehr
+ */
+class IssueViewTestData {
+
+    const ISSUE_TABLE_ROW_1 = '<tr><td>1</td><td>2</td><td>sumi</td><td>This is a test issue</td><td>User number 2 said:
+I had an issue
+User number 1 said:
+I fixed the issue
+</td><td>1</td></tr>';
+}
