@@ -58,22 +58,41 @@ class Util {
     }
 
     /**
-     * Emit an h-tag of any level
+     * Generate html for an h-tag of any level
      * @param int $level 1 for h1, 2 for h2 ...
      * @param string $text the inner HTML
      * @param string $cssclass css class(es), if any
      * @param string $id id if any
      * @return void
      */
-    public static function hTag(
+    public static function htmlHTag(
             int $level,
             string $text,
             string $cssclass = null,
             string $id = null
-    ): void {
-        echo '<h' . $level . ($id ? ' id="' . $id . '"' : '')
-        . ($cssclass ? ' class="' . $cssclass . '"' : '') . '>'
-        . $text
-        . '</h' . $level . '>' . PHP_EOL;
+    ): string {
+        $out = "<h{$level}"
+                . ($id ? " id=\"{$id}\"" : "")
+                . ($cssclass ? " class=\"{$cssclass}\"" : "")
+                . ">"
+                . $text
+                . "</h{$level}>"
+                . PHP_EOL;
+        return $out;
+    }
+
+    public static function htmlTableRow(array $data, string $class = null, string $id = null): string {
+        $out = "<tr";
+        $out .= $id ? " id = \"{$id}" : "";
+        $out .= $class ? " class=\"{$class}" : "";
+        $out .= ">";
+        foreach ($data as $datum) {
+            $out .= self::htmlTableData($datum);
+        }
+        $out .= "</tr>";
+    }
+
+    public static function htmlTableData(string $data): string {
+        return "<td>{$data}</td>";
     }
 }

@@ -26,27 +26,30 @@
 -->
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Gesundheit Issue Tracker</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Gesundheit Issue Tracker</title>
+    </head>
 
-<body>
-    <?php
-    require_once(__DIR__ . '/util/Util.php');
-    $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
-    $docroot = Util::getDotEnv(key: 'docroot');
-    $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
-    $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
+    <body>
+        <?php
+        require_once __DIR__ . '/util/Util.php';
+        require_once __DIR__ . 'model/DbModel.php';
+        require_once __DIR__ . 'view/IssueView.php';
 
-    Util::hTag(level: 1, text: "Gesundheit Issue Tracker");
-    /* 
-    echo "docroot is $docroot<br />" . PHP_EOL;
-    echo "mongodb_uri is $mongodb_uri<br />" . PHP_EOL;
-    echo "mongodb_db_name is $mongodb_db_name<br />" . PHP_EOL;
-    */
-    
-    ?>
-</body>
+        $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
+        $docroot = Util::getDotEnv(key: 'docroot');
+        $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
+        $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
+        $dbmodel = DbModel::newDbModel();
+
+        print Util::HTMLHTag(level: 1, text: "Gesundheit Issue Tracker");
+        /*
+          echo "docroot is $docroot<br />" . PHP_EOL;
+          echo "mongodb_uri is $mongodb_uri<br />" . PHP_EOL;
+          echo "mongodb_db_name is $mongodb_db_name<br />" . PHP_EOL;
+         */
+        ?>
+    </body>
 
 </html>

@@ -35,6 +35,7 @@ class IssueControllerTestData {
 (
     [issue_number:IssueModel:private] => 1
     [usernum:IssueModel:private] => 2
+    [name:IssueModel:private] => sumi
     [description:IssueModel:private] => This is a test issue
     [conversation:IssueModel:private] => ConversationModel Object
         (
@@ -65,6 +66,7 @@ class IssueControllerTestData {
         (
             [issue_number:IssueModel:private] => 1
             [usernum:IssueModel:private] => 2
+            [name:IssueModel:private] => sumi
             [description:IssueModel:private] => This is a test issue
             [conversation:IssueModel:private] => ConversationModel Object
                 (
@@ -93,6 +95,7 @@ class IssueControllerTestData {
         (
             [issue_number:IssueModel:private] => 2
             [usernum:IssueModel:private] => 1
+            [name:IssueModel:private] => fred
             [description:IssueModel:private] => This is another test issue
             [conversation:IssueModel:private] => ConversationModel Object
                 (

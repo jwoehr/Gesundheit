@@ -36,6 +36,7 @@ IssueModel Object
 (
     [issue_number:IssueModel:private] => 0
     [usernum:IssueModel:private] => 0
+    [name:IssueModel:private] => 
     [description:IssueModel:private] => 
     [conversation:IssueModel:private] => ConversationModel Object
         (
@@ -54,6 +55,7 @@ IssueModel Object
 (
     [issue_number:IssueModel:private] => 1
     [usernum:IssueModel:private] => 2
+    [name:IssueModel:private] => 
     [description:IssueModel:private] => This is a test issue
     [conversation:IssueModel:private] => ConversationModel Object
         (
@@ -84,6 +86,7 @@ IssueModel Object
 (
     [issue_number:IssueModel:private] => 2
     [usernum:IssueModel:private] => 1
+    [name:IssueModel:private] => 
     [description:IssueModel:private] => This is another test issue
     [conversation:IssueModel:private] => ConversationModel Object
         (

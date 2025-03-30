@@ -37,6 +37,7 @@ class IssueModel {
 
     private int $issue_number;
     private int $usernum;
+    private string $name;
     private string $description;
     private ConversationModel $conversation;
     private bool $resolved;
@@ -48,6 +49,7 @@ class IssueModel {
             bool $resolved = false) {
         $this->setIssue_number(issue_number: $issue_number);
         $this->setUsernum(usernum: $usernum);
+        $this->setName("");
         $this->setDescription(description: $description);
         $this->setConversation(conversation: $conversation);
         $this->setResolved(resolved: $resolved);
@@ -56,6 +58,7 @@ class IssueModel {
     public function __toString(): string {
         return "IssueModel[issue_number=" . $this->issue_number
                 . ", usernum=" . $this->usernum
+                . ", name=" . $this->name
                 . ", description=" . $this->description
                 . ", conversation=" . print_r(value: $this->conversation, return: true)
                 . ", resolved=" . ($this->resolved ? "true" : "false")
@@ -68,6 +71,14 @@ class IssueModel {
 
     public function getUsernum(): int {
         return $this->usernum;
+    }
+
+    public function getName(): string {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void {
+        $this->name = $name ? $name : "";
     }
 
     public function getDescription(): string {
@@ -112,6 +123,7 @@ class IssueModel {
                 [
             'issue_number' => $this->getIssue_number(),
             'usernum' => $this->getUsernum(),
+            'name' => $this->getName(),
             'description' => $this->getDescription(),
             'conversation' => $conversationDoc,
             'resolved' => $this->getResolved()
@@ -122,6 +134,7 @@ class IssueModel {
     public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
         $this->setIssue_number(issue_number: $doc->issue_number);
         $this->setUsernum(usernum: $doc->usernum);
+        $this->setName(name: (property_exists($doc, 'user') ? $doc->user[0]->name : ""));
         $this->setDescription(description: $doc->description);
         $this->setConversation(conversation: ConversationModel::newFromDoc(doc: $doc->conversation));
         $this->setResolved(resolved: $doc->resolved);
