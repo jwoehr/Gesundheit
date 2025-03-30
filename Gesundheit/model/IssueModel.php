@@ -123,7 +123,7 @@ class IssueModel {
                 [
             'issue_number' => $this->getIssue_number(),
             'usernum' => $this->getUsernum(),
-            'name' => $this->getName(),
+           // 'name' => $this->getName(),
             'description' => $this->getDescription(),
             'conversation' => $conversationDoc,
             'resolved' => $this->getResolved()
