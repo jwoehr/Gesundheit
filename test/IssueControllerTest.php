@@ -24,10 +24,34 @@
  * THE SOFTWARE.
  */
 
-// Requires for PHPUnit testing, see ../scripts/runtests.sh
-require_once __DIR__ . '/Gesundheit/model/ConversationModel.php';
-require_once __DIR__ . '/Gesundheit/model/DbModel.php';
-require_once __DIR__ . '/Gesundheit/model/IssueModel.php';
-require_once __DIR__ . '/Gesundheit/model/PostingModel.php';
-require_once __DIR__ . '/Gesundheit/model/UserModel.php';
-require_once __DIR__ . '/Gesundheit/controller/IssueController.php';
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/data/IssueControllerTestData.php';
+
+class IssueControllerTest extends TestCase {
+
+    private DbModel $dbmodel;
+
+    protected function setup(): void {
+        $env_dir = getenv("GESUNDHEIT_ENV_DIR");
+        $env_file = getenv('GESUNDHEIT_ENV_FILE');
+        Util::loadEnv($env_dir, $env_file);
+        $this->dbmodel = DbModel::newDbModel();
+        $this->dbmodel->connect();
+    }
+
+    public function testGetIssue1(): void {
+        $this->assertEquals(expected: IssueControllerTestData::ISSUE_1, actual: print_r(value: IssueController::getIssue(1, $this->dbmodel), return: true));
+    }
+
+    public function testGetAllIssues(): void {
+        $this->assertEquals(expected: IssueControllerTestData::ALL_ISSUES, actual: print_r(value: IssueController::getAllIssues($this->dbmodel), return: true));
+    }
+
+    protected function tearDown(): void {
+        if ($this->dbmodel) {
+            $this->dbmodel->close();
+        }
+        unset($this->dbmodel);
+    }
+}

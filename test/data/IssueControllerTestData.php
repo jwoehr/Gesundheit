@@ -25,32 +25,13 @@
  */
 
 /**
- * Data for IssueModelTest
+ * Data for IssueControllerTest
  *
  * @author jwoehr
  */
-class IssueModelTestData {
+class IssueControllerTestData {
 
-    const ISSUE_NEW = <<<END
-IssueModel Object
-(
-    [issue_number:IssueModel:private] => 0
-    [usernum:IssueModel:private] => 0
-    [description:IssueModel:private] => 
-    [conversation:IssueModel:private] => ConversationModel Object
-        (
-            [postings:ConversationModel:private] => Array
-                (
-                )
-
-        )
-
-    [resolved:IssueModel:private] => 
-)
-
-END;
-    const ISSUE_WITH_DATA = <<<END
-IssueModel Object
+    const ISSUE_1 = 'IssueModel Object
 (
     [issue_number:IssueModel:private] => 1
     [usernum:IssueModel:private] => 2
@@ -77,36 +58,65 @@ IssueModel Object
 
     [resolved:IssueModel:private] => 1
 )
-
-END;
-    const ISSUE1_WITH_DATA = <<< END
-IssueModel Object
+';
+    const ALL_ISSUES = 'Array
 (
-    [issue_number:IssueModel:private] => 2
-    [usernum:IssueModel:private] => 1
-    [description:IssueModel:private] => This is another test issue
-    [conversation:IssueModel:private] => ConversationModel Object
+    [0] => IssueModel Object
         (
-            [postings:ConversationModel:private] => Array
+            [issue_number:IssueModel:private] => 1
+            [usernum:IssueModel:private] => 2
+            [description:IssueModel:private] => This is a test issue
+            [conversation:IssueModel:private] => ConversationModel Object
                 (
-                    [0] => PostingModel Object
+                    [postings:ConversationModel:private] => Array
                         (
-                            [usernum:PostingModel:private] => 1
-                            [posting:PostingModel:private] => I had a new issue
-                        )
+                            [0] => PostingModel Object
+                                (
+                                    [usernum:PostingModel:private] => 2
+                                    [posting:PostingModel:private] => I had an issue
+                                )
 
-                    [1] => PostingModel Object
-                        (
-                            [usernum:PostingModel:private] => 1
-                            [posting:PostingModel:private] => I have not fixed the new issue
+                            [1] => PostingModel Object
+                                (
+                                    [usernum:PostingModel:private] => 1
+                                    [posting:PostingModel:private] => I fixed the issue
+                                )
+
                         )
 
                 )
 
+            [resolved:IssueModel:private] => 1
         )
 
-    [resolved:IssueModel:private] => 
-)
+    [1] => IssueModel Object
+        (
+            [issue_number:IssueModel:private] => 2
+            [usernum:IssueModel:private] => 1
+            [description:IssueModel:private] => This is another test issue
+            [conversation:IssueModel:private] => ConversationModel Object
+                (
+                    [postings:ConversationModel:private] => Array
+                        (
+                            [0] => PostingModel Object
+                                (
+                                    [usernum:PostingModel:private] => 1
+                                    [posting:PostingModel:private] => I had a new issue
+                                )
 
-END;
+                            [1] => PostingModel Object
+                                (
+                                    [usernum:PostingModel:private] => 1
+                                    [posting:PostingModel:private] => I have not fixed the new issue
+                                )
+
+                        )
+
+                )
+
+            [resolved:IssueModel:private] => 
+        )
+
+)
+';
 }

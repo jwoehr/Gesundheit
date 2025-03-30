@@ -25,7 +25,7 @@
  */
 
 /**
- * Description of DbModelTestData
+ * Data for DbModelTest
  *
  * @author jwoehr
  */

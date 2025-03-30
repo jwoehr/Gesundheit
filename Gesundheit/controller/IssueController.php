@@ -24,24 +24,36 @@
  * THE SOFTWARE.
  */
 
-require_once __DIR__ . "../model/DbModel";
-require_once __DIR__ . "../model/UserModel";
-require_once __DIR__ . "../model/IssueModel";
-require_once __DIR__ . "../model/PostingModel";
-require_once __DIR__ . "../model/ConversationModel";
+require_once __DIR__ . "/../model/DbModel.php";
+require_once __DIR__ . "/../model/UserModel.php";
+require_once __DIR__ . "/../model/IssueModel.php";
+require_once __DIR__ . "/../model/PostingModel.php";
+require_once __DIR__ . "/../model/ConversationModel.php";
 
 class IssueController {
 
-    public function summaryData(int $issue_number, DbModel $dbmodel): ?IssueModel {
-        $issuemodel = null;
+    public static function issueModelFromDoc(MongoDB\Model\BSONDocument $doc): IssueModel {
+        $issuemodel = new IssueModel();
+        $issuemodel->fromDoc($doc);
+        return $issuemodel;
+    }
 
-        $rawArray = $dbmodel->issue_user_lookup($issue_number);
-        if (!empty($rawArray)) {
-            $issuemodel = new IssueModel;
-            $conversationmodel = new ConversationModel();
-            
-            
+    public static function getIssue(int $issue_number, DbModel $dbmodel): ?IssueModel {
+        $issuemodel = null;
+        $issue_array = $dbmodel->issue_user_lookup($issue_number);
+        if (!empty($issue_array)) {
+            $doc = $issue_array[0];
+            $issuemodel = self::issueModelFromDoc($doc);
         }
         return $issuemodel;
+    }
+
+    public static function getAllIssues(DbModel $dbmodel): array {
+        $allIssues = [];
+        $issue_user_lookup_all = $dbmodel->issue_user_lookup_all();
+        foreach ($issue_user_lookup_all as $doc) {
+            $allIssues[] = self::issueModelFromDoc($doc);
+        }
+        return $allIssues;
     }
 }

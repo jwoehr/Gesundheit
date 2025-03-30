@@ -24,6 +24,11 @@
  * THE SOFTWARE.
  */
 
+/**
+ * Data for ConversationModelTest
+ * 
+ * @author jwoehr
+ */
 class ConversationModelTestData {
 
     const C_NEW = <<<END
