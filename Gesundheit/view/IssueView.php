@@ -45,4 +45,19 @@ class IssueView {
         ];
         return Util::htmlTableRow(data: $data);
     }
+
+    public static function issueTableRows(DbModel $dbmodel): array {
+        $issuetablerows = [];
+        $issuemodels = IssueController::getAllIssues($dbmodel);
+        foreach ($issuemodels as $issuemodel) {
+            $issuetablerows[] = self::issueTableRow($issuemodel);
+        }
+        return $issuetablerows;
+    }
+
+    public static function printIssueTableRows(DbModel $dbmodel): void {
+        foreach (self::issueTableRows($dbmodel) as $issuetablerow) {
+            print $issuetablerow . "<br />" . PHP_EOL;
+        }
+    }
 }

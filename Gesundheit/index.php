@@ -24,6 +24,19 @@
  * THE SOFTWARE.
  */
 -->
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/util/Util.php';
+require_once __DIR__ . '/model/DbModel.php';
+require_once __DIR__ . '/view/IssueView.php';
+
+$dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
+$docroot = Util::getDotEnv(key: 'docroot');
+$mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
+$mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
+$dbmodel = DbModel::newDbModel();
+$dbmodel->connect();
+?>
 <html>
 
     <head>
@@ -32,24 +45,20 @@
     </head>
 
     <body>
+
         <?php
-        require_once __DIR__ . '/util/Util.php';
-        require_once __DIR__ . 'model/DbModel.php';
-        require_once __DIR__ . 'view/IssueView.php';
-
-        $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
-        $docroot = Util::getDotEnv(key: 'docroot');
-        $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
-        $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
-        $dbmodel = DbModel::newDbModel();
-
-        print Util::HTMLHTag(level: 1, text: "Gesundheit Issue Tracker");
+        print Util::htmlHTag(level: 1, text: "Gesundheit Issue Tracker");
         /*
-          echo "docroot is $docroot<br />" . PHP_EOL;
-          echo "mongodb_uri is $mongodb_uri<br />" . PHP_EOL;
-          echo "mongodb_db_name is $mongodb_db_name<br />" . PHP_EOL;
-         */
+        print $dbmodel;
+        */
         ?>
+        <table>
+            <?php
+            IssueView::printIssueTableRows($dbmodel);
+            ?>
+        </table>
     </body>
-
+    <?php
+    $dbmodel->close();
+    ?>
 </html>
