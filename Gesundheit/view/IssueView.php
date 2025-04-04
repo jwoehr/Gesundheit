@@ -57,7 +57,7 @@ class IssueView {
 
     public static function printIssueTableRows(DbModel $dbmodel): void {
         foreach (self::issueTableRows($dbmodel) as $issuetablerow) {
-            print $issuetablerow . "<br />" . PHP_EOL;
+            print $issuetablerow . PHP_EOL;
         }
     }
 }

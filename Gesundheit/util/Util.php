@@ -57,6 +57,10 @@ class Util {
         return $result;
     }
 
+    public static function stylesheet($url): string {
+        return '<link rel="stylesheet" href="' . $url . '">' . PHP_EOL;
+    }
+
     /**
      * Generate html for an h-tag of any level
      * @param int $level 1 for h1, 2 for h2 ...

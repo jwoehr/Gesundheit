@@ -42,6 +42,7 @@ $dbmodel->connect();
     <head>
         <meta charset="UTF-8">
         <title>Gesundheit Issue Tracker</title>
+        <?php print Util::stylesheet('./css/trackertable.css') ?>
     </head>
 
     <body>
@@ -49,10 +50,23 @@ $dbmodel->connect();
         <?php
         print Util::htmlHTag(level: 1, text: "Gesundheit Issue Tracker");
         /*
-        print $dbmodel;
-        */
+          print $dbmodel;
+         */
         ?>
         <table>
+            <caption>
+                Issues
+            </caption>
+            <thead>
+                <tr>
+                    <th scope="col">Issue number</th>
+                    <th scope="col">User number</th>
+                    <th scope="col">User name</th>
+                    <th scope="col">Issue title</th>
+                    <th scope="col">Conversation</th>
+                    <th scope="col">Resolved?</th>
+                </tr>
+            </thead>
             <?php
             IssueView::printIssueTableRows($dbmodel);
             ?>
