@@ -35,29 +35,49 @@ require_once __DIR__ . '/../controller/IssueController.php';
 class IssueView {
 
     public static function issueTableRow(IssueModel $issuemodel): string {
+        $postings = "";
+        foreach ($issuemodel->getConversation()->getPostings() as $posting) {
+            $postings .= "<p>{$posting} </p>";
+        }
         $data = [
             strval(value: $issuemodel->getIssue_number()),
             strval(value: $issuemodel->getUsernum()),
             strval(value: $issuemodel->getName()),
             strval(value: $issuemodel->getDescription()),
-            strval(value: $issuemodel->getConversation()),
-            strval(value: $issuemodel->getResolved()),
+            $postings,
+            $issuemodel->getResolved() ? "yes" : "no",
         ];
         return Util::htmlTableRow(data: $data);
     }
 
-    public static function issueTableRows(DbModel $dbmodel): array {
-        $issuetablerows = [];
+    public static function issueTableRows(DbModel $dbmodel): string {
+        $issuetablerows = "";
         $issuemodels = IssueController::getAllIssues($dbmodel);
         foreach ($issuemodels as $issuemodel) {
-            $issuetablerows[] = self::issueTableRow($issuemodel);
+            $issuetablerows .= self::issueTableRow($issuemodel) . PHP_EOL;
         }
         return $issuetablerows;
     }
 
-    public static function printIssueTableRows(DbModel $dbmodel): void {
-        foreach (self::issueTableRows($dbmodel) as $issuetablerow) {
-            print $issuetablerow . PHP_EOL;
-        }
+    public static function issueTable(DbModel $dbmodel): string {
+        $output = '
+        <table>
+            <caption>
+                Issues
+            </caption>
+            <thead>
+                <tr>
+                    <th scope="col">Issue number</th>
+                    <th scope="col">User number</th>
+                    <th scope="col">User name</th>
+                    <th scope="col">Issue title</th>
+                    <th scope="col">Conversation</th>
+                    <th scope="col">Resolved?</th>
+                </tr>
+            </thead>' . PHP_EOL;
+
+        $output .= IssueView::issueTableRows($dbmodel);
+        $output .= '</table>';
+        return $output;
     }
 }

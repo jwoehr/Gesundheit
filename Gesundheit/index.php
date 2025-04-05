@@ -52,27 +52,10 @@ $dbmodel->connect();
         /*
           print $dbmodel;
          */
+
+        print IssueView::issueTable($dbmodel);
+        $dbmodel->close();
         ?>
-        <table>
-            <caption>
-                Issues
-            </caption>
-            <thead>
-                <tr>
-                    <th scope="col">Issue number</th>
-                    <th scope="col">User number</th>
-                    <th scope="col">User name</th>
-                    <th scope="col">Issue title</th>
-                    <th scope="col">Conversation</th>
-                    <th scope="col">Resolved?</th>
-                </tr>
-            </thead>
-            <?php
-            IssueView::printIssueTableRows($dbmodel);
-            ?>
-        </table>
+
     </body>
-    <?php
-    $dbmodel->close();
-    ?>
 </html>
