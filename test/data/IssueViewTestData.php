@@ -31,9 +31,7 @@
  */
 class IssueViewTestData {
 
-    const ISSUE_TABLE_ROW_1 = '<tr><td>1</td><td>2</td><td>sumi</td><td>This is a test issue</td><td>User number 2 said:
-I had an issue
-User number 1 said:
-I fixed the issue
-</td><td>1</td></tr>';
+    const ISSUE_TABLE_ROW_1 = '<tr><td>1</td><td>2</td><td>sumi</td><td>This is a test issue</td><td><p>User number 2 said:
+I had an issue </p><p>User number 1 said:
+I fixed the issue </p></td><td>yes</td></tr>';
 }
