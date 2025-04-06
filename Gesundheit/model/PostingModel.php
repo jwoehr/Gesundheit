@@ -36,12 +36,20 @@ class PostingModel {
     }
 
     public function __toString(): string {
-        $out = "User number {$this->getUsernum()} said:\n{$this->getPosting()}";
+        $out = "{$this->getUsername()} said:&nbsp;{$this->getPosting()}";
         return $out;
     }
 
     public function getUsernum(): int {
         return $this->usernum;
+    }
+
+    public function getUsername(): string {
+        $dbmodel = DbModel::newDbModel();
+        $dbmodel->connect();
+        $username = $dbmodel->get_userdoc_by_usernum($this->getUsernum())['name'];
+        $dbmodel->close();
+        return $username;
     }
 
     public function getPosting(): string {
