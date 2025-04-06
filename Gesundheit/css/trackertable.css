@@ -35,7 +35,7 @@ table {
 }
 
 caption {
-    caption-side: bottom;
+    caption-side: top;
     padding: 10px;
     font-weight: bold;
 }

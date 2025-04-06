@@ -37,7 +37,7 @@ class IssueView {
     public static function issueTableRow(IssueModel $issuemodel): string {
         $postings = "";
         foreach ($issuemodel->getConversation()->getPostings() as $posting) {
-            $postings .= "<p>{$posting} </p>";
+            $postings .= "<p>{$posting}</p>";
         }
         $data = [
             strval(value: $issuemodel->getIssue_number()),
