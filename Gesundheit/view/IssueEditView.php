@@ -36,23 +36,25 @@ require_once __DIR__ . '/IssueView.php';
 class IssueEditView {
 
     public static function issueEditTable(DbModel $dbmodel, int $issue_number): string {
-        $output = '
-        <table>
+        $output = "
+            <table>
             <caption>
-                Edit Issue 
+                Edit Issue {$issue_number}
             </caption>
             <thead>
                 <tr>
-                    <th scope="col">Issue number</th>
-                    <th scope="col">User number</th>
-                    <th scope="col">User name</th>
-                    <th scope="col">Issue title</th>
-                    <th scope="col">Conversation</th>
-                    <th scope="col">Resolved?</th>
+                    <th scope=\"col\">Issue number</th>
+                    <th scope=\"col\">User number</th>
+                    <th scope=\"col\">User name</th>
+                    <th scope=\"col\">Issue title</th>
+                    <th scope=\"col\">Conversation</th>
+                    <th scope=\"col\">Resolved?</th>
                 </tr>
-            </thead>' . PHP_EOL;
-
-        $output .= IssueView::issueTableRow(IssueController::getIssue($issue_number, $dbmodel));
+            </thead>" . PHP_EOL;
+        $issuemodel = IssueController::getIssue($issue_number, $dbmodel);
+        if ($issuemodel) {
+            $output .= IssueView::issueTableRow($issuemodel);
+        }
         $output .= '</table>';
         return $output;
     }
