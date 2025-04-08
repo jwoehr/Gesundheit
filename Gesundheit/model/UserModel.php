@@ -111,6 +111,16 @@ class UserModel {
         return $success;
     }
 
+    public function loadByNameAndPassword(string $name, string $password, DbModel $dbmodel): bool {
+        $success = false;
+        $doc = $dbmodel->get_userdoc_by_name(name: $name);
+        if ($doc && ($doc['password'] === $password)) {
+            $this->fromDoc(doc: $doc);
+            $success = true;
+        }
+        return $success;
+    }
+
     public function load(DbModel $dbmodel, ?string $name = null, ?int $usernum = null): bool {
         $success = false;
         if ($name) {
