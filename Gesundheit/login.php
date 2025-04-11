@@ -37,37 +37,37 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-if (LoginController::validateLoginCookie($dbmodel)) {
+if (LoginView::isLoggingOut()) {
+    LoginController::logout();
+} elseif (LoginController::validateLoginCookie($dbmodel)) {
     $dbmodel->close();
     header("Location: ./index.php");
 } elseif (LoginView::isLoggingIn() && LoginView::setLoginCookieFromPost($dbmodel)) {
     $dbmodel->close();
     header("Location: ./index.php");
-} else {
-    ?>
-    <html>
-
-        <head>
-            <meta charset="UTF-8">
-            <title>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</title>
-            <?php print Util::stylesheet('./css/login.css') ?>
-        </head>
-
-        <body>
-            <div class="form-container">
-                <h1>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</h1>
-                <form id="loginform" action="login.php" method="post" enctype="multipart/form-data" autocomplete="on">
-                    <label for="name">Name:</label><br>
-                    <input type="text" id="name" name="name"><br><br>
-                    <label for="password">Password:</label><br>
-                    <input type="text" id="password" name="password"><br><br>
-                    <input type="submit" value="Submit">
-                </form>
-            </div>
-        </body>
-    </html>
-    <?php
-    $dbmodel->close();
 }
+?>
+<html>
 
-   
+    <head>
+        <meta charset="UTF-8">
+        <title>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</title>
+        <?php print Util::stylesheet('./css/login.css') ?>
+    </head>
+
+    <body>
+        <div class="form-container">
+            <h1>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</h1>
+            <form id="loginform" action="login.php" method="post" enctype="multipart/form-data" autocomplete="on">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name"><br><br>
+                <label for="password">Password:</label><br>
+                <input type="text" id="password" name="password"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
+</html>
+
+
+

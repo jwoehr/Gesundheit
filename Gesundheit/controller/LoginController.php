@@ -46,13 +46,13 @@ class LoginController {
 
     public static function setLoginCookie(UserModel $usermodel): bool {
         $usernum = strval(value: $usermodel->getUsernum());
-        return setcookie('GESUNDHEIT', "{$usermodel->getName()}:$usernum", ["path" => "/"]);
+        return setcookie('GESUNDHEIT', "{$usermodel->getName()}:$usernum", ["path" => "/", "expires" => time() + 1800]);
     }
 
     public static function validateLoginCookie(DbModel $dbmodel): ?UserModel {
         $usermodel = null;
-        $g = $_COOKIE['GESUNDHEIT'];
-        // $g = filter_input(type: INPUT_COOKIE, var_name: 'GESUNDHEIT', filter: FILTER_DEFAULT);
+        // $g = $_COOKIE['GESUNDHEIT'];
+        $g = filter_input(type: INPUT_COOKIE, var_name: 'GESUNDHEIT', filter: FILTER_DEFAULT);
         if ($g) {
             $e = explode(separator: ':', string: $g);
             if (sizeof($e) === 2) {
@@ -63,5 +63,9 @@ class LoginController {
             }
         }
         return $usermodel;
+    }
+
+    public static function logout(): void {
+        setcookie("GESUNDHEIT", "", time() - 3600);
     }
 }

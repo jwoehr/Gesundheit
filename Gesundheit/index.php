@@ -56,6 +56,11 @@ $dbmodel->connect();
         print IssueView::issueTable($dbmodel);
         $dbmodel->close();
         ?>
+        <div>
+            <?php
+            print Util::htmlLogout();
+            ?>
+        </div>
 
     </body>
 </html>

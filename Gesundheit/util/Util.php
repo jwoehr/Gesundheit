@@ -100,4 +100,13 @@ class Util {
     public static function htmlTableData(string $data): string {
         return "<td>{$data}</td>";
     }
+
+    public static function htmlLogout(): string {
+        $out = '<form id="logout_form" action="login.php" method="post" enctype="multipart/form-data" '
+                . 'autocomplete="on"><input type="submit" id="submitLogout" name="submitLogout" value="Logout">'
+                . '<input type="hidden" id="Logout" name="Logout" value="Logout">'
+                . '</form>';
+
+        return $out;
+    }
 }

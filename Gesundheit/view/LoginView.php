@@ -50,4 +50,8 @@ class LoginView {
     public static function isLoggingIn(): bool {
         return filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING) ? true : false;
     }
+
+    public static function isLoggingOut(): bool {
+        return filter_input(INPUT_POST, 'Logout', FILTER_SANITIZE_STRING) ? true : false;
+    }
 }
