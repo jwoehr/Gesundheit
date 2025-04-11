@@ -38,6 +38,7 @@ class LoginView {
 
     public static function setLoginCookieFromPost(DbModel $dbmodel): bool {
         $success = false;
+        LoginController::logout();
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $usermodel = LoginController::validateLogin($dbmodel, $name, $password);

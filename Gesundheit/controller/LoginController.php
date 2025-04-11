@@ -66,6 +66,6 @@ class LoginController {
     }
 
     public static function logout(): void {
-        setcookie("GESUNDHEIT", "", time() - 3600);
+        setcookie("GESUNDHEIT", "");
     }
 }

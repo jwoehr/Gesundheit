@@ -103,7 +103,7 @@ class Util {
 
     public static function htmlLogout(): string {
         $out = '<form id="logout_form" action="login.php" method="post" enctype="multipart/form-data" '
-                . 'autocomplete="on"><input type="submit" id="submitLogout" name="submitLogout" value="Logout">'
+                . 'autocomplete="on"><input type="submit" id="submitLogout" name="submitLogout" value="Logout" onclick="Cookies.remove(\'GESUNDHEIT\');">'
                 . '<input type="hidden" id="Logout" name="Logout" value="Logout">'
                 . '</form>';
 

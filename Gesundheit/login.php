@@ -38,11 +38,8 @@ $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
 if (LoginView::isLoggingOut()) {
-    LoginController::logout();
+    LoginController::logout();  
 } elseif (LoginController::validateLoginCookie($dbmodel)) {
-    $dbmodel->close();
-    header("Location: ./index.php");
-} elseif (LoginView::isLoggingIn() && LoginView::setLoginCookieFromPost($dbmodel)) {
     $dbmodel->close();
     header("Location: ./index.php");
 }
@@ -58,7 +55,7 @@ if (LoginView::isLoggingOut()) {
     <body>
         <div class="form-container">
             <h1>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</h1>
-            <form id="loginform" action="login.php" method="post" enctype="multipart/form-data" autocomplete="on">
+            <form id="loginform" action="login_attempted.php" method="post" enctype="multipart/form-data" autocomplete="on">
                 <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name"><br><br>
                 <label for="password">Password:</label><br>

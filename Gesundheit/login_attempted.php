@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<!--
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2025 jwoehr.
@@ -23,12 +23,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
--->
-<?php
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/util/Util.php';
 require_once __DIR__ . '/model/DbModel.php';
 require_once __DIR__ . '/controller/LoginController.php';
+require_once __DIR__ . '/view/LoginView.php';
 require_once __DIR__ . '/view/IssueView.php';
 
 $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
@@ -37,37 +37,10 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$currentUserModel = LoginController::validateLoginCookie($dbmodel);
-if (!$currentUserModel) {
-    $dbmodel->close();
+$success_logging_in = LoginView::setLoginCookieFromPost($dbmodel);
+$dbmodel->close();
+if ($success_logging_in) {
+    header("Location: ./index.php");
+} else {
     header("Location: ./login.php");
 }
-?>
-<html>
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Gesundheit Issue Tracker</title>
-        <?php print Util::stylesheet('./css/trackertable.css') ?>
-        <script src="./js/js.cookie.min.js"></script>
-    </head>
-
-    <body>
-
-        <?php
-        print Util::htmlHTag(level: 1, text: "Gesundheit Issue Tracker");
-        /*
-          print $dbmodel;
-         */
-
-        print IssueView::issueTable($dbmodel);
-        $dbmodel->close();
-        ?>
-        <div>
-            <?php
-            print Util::htmlLogout();
-            ?>
-        </div>
-
-    </body>
-</html>
