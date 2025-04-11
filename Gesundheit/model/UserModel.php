@@ -131,6 +131,14 @@ class UserModel {
         return $success;
     }
 
+    public static function newUserModelFromLoad(DbModel $dbmodel, ?string $name = null, ?int $usernum = null): ?UserModel {
+        $usermodel = new UserModel();
+        if (!($usermodel->load($dbmodel, $name, $usernum))) {
+            $usermodel = null;
+        }
+        return $usermodel;
+    }
+
     public function save(DbModel $dbmodel): bool {
         return $dbmodel->upsert_userdoc(doc: $this->toDoc());
     }
