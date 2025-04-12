@@ -30,6 +30,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/util/Util.php';
 require_once __DIR__ . '/model/DbModel.php';
 require_once __DIR__ . '/controller/IssueEditController.php';
+require_once __DIR__ . '/controller/LoginController.php';
 require_once __DIR__ . '/view/IssueEditView.php';
 
 $dotenv = Util::loadEnv(dirpath: __DIR__ . '/../..');
@@ -38,6 +39,11 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
+$currentUserModel = LoginController::validateLoginCookie($dbmodel);
+if (!$currentUserModel) {
+    $dbmodel->close();
+    header("Location: ./login.php");
+} else {
 $myIssue = IssueEditController::httpIssueNumber();
 ?>
 <html>
@@ -59,3 +65,5 @@ $myIssue = IssueEditController::httpIssueNumber();
     </body>
 
 </html>
+<?php
+}
