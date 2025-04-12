@@ -35,6 +35,11 @@ require_once __DIR__ . '/../util/Util.php';
  */
 class DbModel {
 
+    /**
+     * Ascending, descending order
+     */
+    const ASC = 1, DESC = -1;
+
     private ?string $myhost = null;
     private ?string $mongodb_uri = null;
     private ?string $mongodb_db_name = null;
@@ -396,5 +401,57 @@ class DbModel {
                             ],
                         ]
                 )->toArray();
+    }
+
+    /**
+     * Find the highest user number assigned in the `user` collection
+     * @return int highest user number
+     */
+    public function highestUserNumber(): int {
+        $highest = 0;
+        $array = $this->mongodb_db->user->aggregate(
+                        [
+                            ['$project' =>
+                                [
+                                    '_id' => false,
+                                    'usernum' => true,
+                                ]],
+                            ['$sort' =>
+                                [
+                                    'usernum' => self::DESC
+                                ]
+                            ]
+                        ]
+                )->toArray();
+        if (count($array)) {
+            $highest = $array[0]['usernum'];
+        }
+        return $highest;
+    }
+
+    /**
+     * Find the highest issue number assigned in the `issue` collection
+     * @return int highest issue number
+     */
+    public function highestIssueNumber(): int {
+        $highest = 0;
+        $array = $this->mongodb_db->issue->aggregate(
+                        [
+                            ['$project' =>
+                                [
+                                    '_id' => false,
+                                    'issue_number' => true,
+                                ]],
+                            ['$sort' =>
+                                [
+                                    'issue_number' => self::DESC
+                                ]
+                            ]
+                        ]
+                )->toArray();
+        if (count($array)) {
+            $highest = $array[0]['issue_number'];
+        }
+        return $highest;
     }
 }
