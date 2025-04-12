@@ -14,8 +14,8 @@ Copyright &copy; 2025 Jack Woehr [jwoehr@softwoehr.com](mailto:jwoehr@softwoehr.
 This demo was coded for the default Apache server under Ubuntu but should run on any Apache server as typically installed in a Linux distro.
 On my system it starts in `/var/www/html/Gesundheit`
 
-- Assumes the .env file resides one directory level above the docroot
-  - E.g., if running in the default Apache instance in /var/www/html/Gesundheit the .env should be in /var/www/
+- Assumes the `.env` file resides one directory level above the docroot
+  - E.g., if running in the default Apache instance in `/var/www/html/Gesundheit` the `.env` should be in `/var/www/`
 
 ### Clone and install
 
