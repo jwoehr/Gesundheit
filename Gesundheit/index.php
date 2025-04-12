@@ -41,7 +41,7 @@ $currentUserModel = LoginController::validateLoginCookie($dbmodel);
 if (!$currentUserModel) {
     $dbmodel->close();
     header("Location: ./login.php");
-}
+} else {
 ?>
 <html>
 
@@ -71,3 +71,6 @@ if (!$currentUserModel) {
 
     </body>
 </html>
+<?php
+}
+
