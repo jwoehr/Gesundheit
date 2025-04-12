@@ -32,12 +32,23 @@ require_once __DIR__ . "/../model/ConversationModel.php";
 
 class IssueController {
 
+    /**
+     * Create IssueModel from database entry
+     * @param MongoDB\Model\BSONDocument $doc
+     * @return IssueModel
+     */
     public static function issueModelFromDoc(MongoDB\Model\BSONDocument $doc): IssueModel {
         $issuemodel = new IssueModel();
         $issuemodel->fromDoc($doc);
         return $issuemodel;
     }
 
+    /**
+     * Fetch an issue from database, if it exists
+     * @param int $issue_number
+     * @param DbModel $dbmodel
+     * @return IssueModel|null
+     */
     public static function getIssue(int $issue_number, DbModel $dbmodel): ?IssueModel {
         $issuemodel = null;
         $issue_array = $dbmodel->issue_user_lookup($issue_number);
@@ -48,6 +59,11 @@ class IssueController {
         return $issuemodel;
     }
 
+    /**
+     * Get an array of IssueModel for all issues
+     * @param DbModel $dbmodel
+     * @return array
+     */
     public static function getAllIssues(DbModel $dbmodel): array {
         $allIssues = [];
         $issue_user_lookup_all = $dbmodel->issue_user_lookup_all();
@@ -55,5 +71,14 @@ class IssueController {
             $allIssues[] = self::issueModelFromDoc($doc);
         }
         return $allIssues;
+    }
+
+    /**
+     *  Apply next highest number to an IssueModel
+     * @param IssueModel $issuemodel
+     * @param DbModel $dbmodel
+     */
+    public static function numberNewIssue(IssueModel $issuemodel, DbModel $dbmodel): void {
+        $issuemodel->setIssue_number($dbmodel->highestIssueNumber() + 1);
     }
 }

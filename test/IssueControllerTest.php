@@ -27,6 +27,7 @@
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/data/IssueControllerTestData.php';
+require_once __DIR__ . '/data/IssueModelTestData.php';
 
 class IssueControllerTest extends TestCase {
 
@@ -46,6 +47,13 @@ class IssueControllerTest extends TestCase {
 
     public function testGetAllIssues(): void {
         $this->assertEquals(expected: IssueControllerTestData::ALL_ISSUES, actual: print_r(value: IssueController::getAllIssues($this->dbmodel), return: true));
+    }
+
+    public function testNumberNewIssue(): void {
+        $im = new IssueModel();
+        $this->assertEquals(expected: IssueModelTestData::ISSUE_NEW, actual: print_r(value: $im, return: true));
+        IssueController::numberNewIssue($im, $this->dbmodel);
+        $this->assertEquals(expected: IssueControllerTestData::ISSUE_MODEL_NUMBERED_3, actual: print_r(value: $im, return: true));
     }
 
     protected function tearDown(): void {

@@ -122,4 +122,23 @@ class IssueControllerTestData {
 
 )
 ';
+    const ISSUE_MODEL_NUMBERED_3 = <<< END
+IssueModel Object
+(
+    [issue_number:IssueModel:private] => 3
+    [usernum:IssueModel:private] => 0
+    [name:IssueModel:private] => 
+    [description:IssueModel:private] => 
+    [conversation:IssueModel:private] => ConversationModel Object
+        (
+            [postings:ConversationModel:private] => Array
+                (
+                )
+
+        )
+
+    [resolved:IssueModel:private] => 
+)
+
+END;
 }
