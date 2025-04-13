@@ -31,5 +31,12 @@
  */
 class IssueViewTestData {
 
-    const ISSUE_TABLE_ROW_1 = '<tr><td>1</td><td>2</td><td>sumi</td><td>This is a test issue</td><td><p>sumi said:&nbsp;I had an issue</p><p>fred said:&nbsp;I fixed the issue</p></td><td>yes</td></tr>';
+    const ISSUE_TABLE_ROW_1 = '<tr><td><a href="./issueEdit.php?issue=1">1</a></td>
+<td>2</td>
+<td>sumi</td>
+<td>This is a test issue</td>
+<td><p>sumi said:&nbsp;I had an issue</p><p>fred said:&nbsp;I fixed the issue</p></td>
+<td>yes</td>
+</tr>
+';
 }
