@@ -44,26 +44,29 @@ if (!$currentUserModel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
-$myIssue = IssueEditController::httpIssueNumber();
-?>
-<html>
+    $myIssue = IssueEditController::httpIssueNumber();
+    ?>
+    <html>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Gesundheit Issue Editor</title>
-        <?php print Util::stylesheet('./css/trackertable.css') ?>
-    </head>
+        <head>
+            <meta charset="UTF-8">
+            <title>Gesundheit Issue Editor</title>
+            <?php print Util::stylesheet('./css/trackertable.css') ?>
+        </head>
 
-    <body>
+        <body>
+            <div>
+                <?php
+                print Util::htmlHTag(level: 1, text: "Gesundheit Issue Editor");
+                print IssueEditView::issueEditTable($dbmodel, $myIssue);
+                print Util::htmlLogout() . PHP_EOL;
+                print Util::htmlIssueView() . PHP_EOL;
+                $dbmodel->close();
+                ?>
+            </div>
 
-        <?php
-        print Util::htmlHTag(level: 1, text: "Gesundheit Issue Editor");
-        print IssueEditView::issueEditTable($dbmodel, $myIssue);
-        $dbmodel->close();
-        ?>
+        </body>
 
-    </body>
-
-</html>
-<?php
+    </html>
+    <?php
 }
