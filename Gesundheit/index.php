@@ -37,8 +37,8 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$currentUserModel = LoginController::validateLoginCookie($dbmodel);
-if (!$currentUserModel) {
+$usermodel = LoginController::validateLoginCookie($dbmodel);
+if (!$usermodel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
@@ -66,8 +66,8 @@ if (!$currentUserModel) {
             ?>
             <div>
                 <?php
-                print Util::htmlLogout() . PHP_EOL;
                 print Util::htmlNewIssue() . PHP_EOL;
+                print Util::htmlLogout() . PHP_EOL;
                 ?>
             </div>
 
