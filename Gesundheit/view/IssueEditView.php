@@ -35,6 +35,12 @@ require_once __DIR__ . '/IssueView.php';
  */
 class IssueEditView {
 
+    /**
+     * Draws the table for issue editing
+     * @param DbModel $dbmodel
+     * @param int $issue_number
+     * @return string the html
+     */
     public static function issueEditTable(DbModel $dbmodel, int $issue_number): string {
         $output = "
             <table>
