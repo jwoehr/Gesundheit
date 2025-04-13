@@ -37,14 +37,14 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$currentUserModel = LoginController::validateLoginCookie($dbmodel);
-if (!$currentUserModel) {
+$usermodel = LoginController::validateLoginCookie($dbmodel);
+if (!$usermodel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
     $description = IssueView::getNewIssueDescription();
     $posting = IssueView::getNewIssuePosting();
-    IssueController::saveNewIssue($description, $posting, $currentUserModel, $dbmodel);
+    IssueController::saveNewIssue($description, $posting, $usermodel, $dbmodel);
     $dbmodel->close();
     header("Location: ./index.php");
 }
