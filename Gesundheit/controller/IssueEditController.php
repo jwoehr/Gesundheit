@@ -26,6 +26,7 @@
 
 require_once __DIR__ . '/../util/Util.php';
 require_once __DIR__ . '/../model/DbModel.php';
+require_once __DIR__ . '/../model/UserModel.php';
 require_once __DIR__ . '/../controller/IssueController.php';
 
 /**
@@ -41,6 +42,12 @@ class IssueEditController {
         return $my_issue_number ?: 0;
     }
 
+    public static function httpPosting(): string {
+        $my_posting = (filter_input(type: INPUT_GET, var_name: 'posting', filter: FILTER_SANITIZE_STRING) ?:
+                filter_input(type: INPUT_POST, var_name: 'posting', filter: FILTER_SANITIZE_STRING));
+        return $my_posting ?: "";
+    }
+
     public static function isResolve(): bool {
         $resolve = (filter_input(type: INPUT_GET, var_name: 'resolve', filter: FILTER_SANITIZE_STRING) ?:
                 filter_input(type: INPUT_POST, var_name: 'resolve', filter: FILTER_SANITIZE_STRING));
@@ -51,5 +58,18 @@ class IssueEditController {
         $issueModel = IssueController::issueModelFromDoc($dbmodel->get_issue_by_issue_number($issuenumber));
         $issueModel->setResolved(true);
         return $dbmodel->upsert_issue($issueModel->toDoc());
+    }
+
+    public static function isSave(): bool {
+        $save = (filter_input(type: INPUT_GET, var_name: 'save', filter: FILTER_SANITIZE_STRING) ?:
+                filter_input(type: INPUT_POST, var_name: 'save', filter: FILTER_SANITIZE_STRING));
+        return $save ? true : false;
+    }
+
+    public static function savePosting(int $issuenumber, UserModel $usermodel, string $text, DbModel $dbmodel): bool {
+        $issuemodel = IssueController::issueModelFromDoc($dbmodel->get_issue_by_issue_number($issuenumber));
+        $posting = new PostingModel($usermodel->getUsernum(), $text);
+        $issuemodel->getConversation()->addPosting($posting);
+        return $dbmodel->upsert_issue($issuemodel->toDoc());
     }
 }

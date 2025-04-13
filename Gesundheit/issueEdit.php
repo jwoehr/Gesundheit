@@ -39,16 +39,17 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$currentUserModel = LoginController::validateLoginCookie($dbmodel);
-if (!$currentUserModel) {
+$usermodel = LoginController::validateLoginCookie($dbmodel);
+if (!$usermodel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
     $issuenumber = IssueEditController::httpIssueNumber();
     if ($issuenumber) {
-        $isResolve = IssueEditController::isResolve();
-        if ($isResolve) {
+        if (IssueEditController::isResolve()) {
             IssueEditController::resolveIssue($issuenumber, $dbmodel);
+        } elseif (IssueEditController::isSave()) {
+            IssueEditController::savePosting($issuenumber, $usermodel, IssueEditController::httpPosting(), $dbmodel);
         }
     }
     ?>
@@ -66,9 +67,10 @@ if (!$currentUserModel) {
                 <?php
                 print Util::htmlHTag(level: 1, text: "Gesundheit Issue Editor");
                 print IssueEditView::issueEditTable($dbmodel, $issuenumber);
+                print Util::htmlSavePosting($issuenumber);
                 print Util::htmlIssueResolve($issuenumber);
-                print Util::htmlLogout() . PHP_EOL;
                 print Util::htmlIssueView() . PHP_EOL;
+                print Util::htmlLogout() . PHP_EOL;
                 $dbmodel->close();
                 ?>
             </div>

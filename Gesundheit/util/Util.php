@@ -154,4 +154,20 @@ class Util {
                 . '</form>' . PHP_EOL;
         return $out;
     }
+
+    /**
+     * 
+     * @return string
+     */
+    public static function htmlSavePosting(int $issuenumber): string {
+        $out = '<form id="view_issues_form" action="./issueEdit.php" method="post" enctype="multipart/form-data" '
+                . 'autocomplete="on">' . PHP_EOL
+                . '<input type=hidden id="issue" name="issue" value ="' . $issuenumber . '">' . PHP_EOL
+                . '<input type=hidden id="save" name="save" value ="save">' . PHP_EOL
+                . '<label for="posting">New Posting to Issue</label><br>' . PHP_EOL
+                . '<textarea id="posting" name="posting" rows="5" cols="33"></textarea><br>' . PHP_EOL
+                . '<input type="submit" id="savePosting" name="savePosting" value="Save Posting">' . PHP_EOL
+                . '</form>' . PHP_EOL;
+        return $out;
+    }
 }
