@@ -234,6 +234,24 @@ class DbModel {
     }
 
     /**
+     * Get all user documents
+     * @return array all userdocs
+     */
+    public function get_all_userdocs(): array {
+        return $this->mongodb_db->user->aggregate(
+                        [
+                            ['$project' => [
+                                    '_id' => false,
+                                    'usernum' => true,
+                                    'name' => true,
+                                    'password' => true,
+                                ]
+                            ]
+                        ]
+                )->toArray();
+    }
+
+    /**
      * Get a user document by name of user
      * @param string $name the user name
      * @return MongoDB\Model\BSONDocument|null the user doc if found
@@ -282,6 +300,14 @@ class DbModel {
                 ]
         );
         return $success->getModifiedCount() > 0 || $success->getUpsertedCount() > 0;
+    }
+
+    /**
+     * Delete user by name
+     * @param string $name user to delete
+     */
+    public function delete_user_by_name(string $name): bool {
+        return $this->mongodb_db->user->deleteOne(['name' => $name])->getDeletedCount() > 0;
     }
 
     /**
