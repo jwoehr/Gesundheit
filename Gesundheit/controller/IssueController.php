@@ -81,4 +81,20 @@ class IssueController {
     public static function numberNewIssue(IssueModel $issuemodel, DbModel $dbmodel): void {
         $issuemodel->setIssue_number($dbmodel->highestIssueNumber() + 1);
     }
+
+    /**
+     *  Create/save a new issue assigning it the next highest issue number
+     * @param string $description
+     * @param UserModel $usermodel
+     * @param DbModel $dbmodel
+     * @return bool
+     */
+    public static function saveNewIssue(string $description, UserModel $usermodel, DbModel $dbmodel): bool {
+        $issuemodel = new IssueModel();
+        $issuemodel->setUsernum($usermodel->getUsernum());
+        $issuemodel->setName($usermodel->getName());
+        $issuemodel->setDescription($description);
+        self::numberNewIssue($issuemodel, $dbmodel);
+        return $dbmodel->upsert_issue($issuemodel->toDoc());
+    }
 }

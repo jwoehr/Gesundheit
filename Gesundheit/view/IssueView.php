@@ -80,4 +80,8 @@ class IssueView {
         $output .= '</table>';
         return $output;
     }
+
+    public static function getNewIssueDescription(): ?string {
+        return filter_input(INPUT_POST, 'issue_description', FILTER_SANITIZE_STRING);
+    }
 }
