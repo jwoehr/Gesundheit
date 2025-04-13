@@ -17,6 +17,17 @@ On my system it starts in `/var/www/html/Gesundheit`
 - Assumes the `.env` file resides one directory level above the docroot
   - E.g., if running in the default Apache instance in `/var/www/html/Gesundheit` the `.env` should be in `/var/www/`
 
+#### The `.env` file
+
+See the example `example.env`
+
+If you are connecting to a MongoDB installation with a valid certificate, you do not need the two keys:
+
+```properties
+mongodb_cert_path=/some/absolute/path
+mongodb_ca_cert_path=/some/absolute/path
+```
+
 ### Clone and install
 
 As noted, we'll assume you're installing into the default Apache instance which resides in `/var/www/` and whose docroot is `/var/www/html/`
@@ -35,6 +46,33 @@ As noted, we'll assume you're installing into the default Apache instance which 
 ## Running Gesundheit
 
 [http://localhost/Gesundheit](http://localhost/Gesundheit) should do it.
+
+### Creating users
+
+Assuming you have a `.env` file in the Gesundheit directory:
+
+- `cd scripts`
+- `usermanage ../.env create` _username_ _password_
+
+`usermanage -h` will give you this approximately this usage:
+
+```text
+    Usage: ./usermanage.php envpath op [ name ] [ password ]
+        where op is one of:
+            * list
+            * delete name
+            * create name password
+            * change name password
+        Returns:
+            0   success
+            101 'create' requires name and password
+            102 Error creating new user
+            103 'delete' requires name
+            104 Error deleting user
+            105 'password' requires name and password
+            106 Error changing password for user
+            107 Unknown op
+```
 
 ## Testing Gesundheit
 
