@@ -90,7 +90,9 @@ class Util {
         $out .= $id ? " id = \"{$id}" : "";
         $out .= $class ? " class=\"{$class}" : "";
         $out .= ">";
-        foreach ($data as $datum) {
+        $issue_id = array_shift($data); // issue id is special, it's  a link
+        $out .= "<td><a href=\"./issueEdit.php?issue={$issue_id}\">{$issue_id}</a></td>";
+        foreach ($data as $datum) { // process the rest of the row
             $out .= self::htmlTableData($datum);
         }
         $out .= "</tr>";
