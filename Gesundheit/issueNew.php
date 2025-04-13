@@ -50,7 +50,7 @@ if (!$currentUserModel) {
 
         <head>
             <meta charset="UTF-8">
-            <title>Gesundheit Issue Editor</title>
+            <title>Gesundheit New Issue</title>
             <?php print Util::stylesheet('./css/trackertable.css') ?>
         </head>
 
@@ -65,7 +65,8 @@ if (!$currentUserModel) {
             </div>
             <div>
                 <?php
-                print Util::htmlLogout();
+                print Util::htmlIssueView() . PHP_EOL;
+                print Util::htmlLogout() . PHP_EOL;
                 ?>
             </div>
 

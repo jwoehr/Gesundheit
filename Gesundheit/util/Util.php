@@ -109,4 +109,18 @@ class Util {
 
         return $out;
     }
+
+    public static function htmlNewIssue(): string {
+        $out = '<form id="new_issue_form" action="issueNew.php" method="get" enctype="multipart/form-data" '
+                . 'autocomplete="on"><input type="submit" id="submitNewIssue" name="submitNewIssue" value="Submit new issue">'
+                . '</form>';
+        return $out;
+    }
+
+    public static function htmlIssueView(): string {
+        $out = '<form id="view_issues_form" action="index.php" method="get" enctype="multipart/form-data" '
+                . 'autocomplete="on"><input type="submit" id="viewIssues" name="viewIssues" value="View issues">'
+                . '</form>';
+        return $out;
+    }
 }

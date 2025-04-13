@@ -42,35 +42,36 @@ if (!$currentUserModel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
-?>
-<html>
+    ?>
+    <html>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Gesundheit Issue Tracker</title>
-        <?php print Util::stylesheet('./css/trackertable.css') ?>
-        <script src="./js/js.cookie.min.js"></script>
-    </head>
+        <head>
+            <meta charset="UTF-8">
+            <title>Gesundheit Issue Tracker</title>
+            <?php print Util::stylesheet('./css/trackertable.css') ?>
+            <script src="./js/js.cookie.min.js"></script>
+        </head>
 
-    <body>
+        <body>
 
-        <?php
-        print Util::htmlHTag(level: 1, text: "Gesundheit Issue Tracker");
-        /*
-          print $dbmodel;
-         */
-
-        print IssueView::issueTable($dbmodel);
-        $dbmodel->close();
-        ?>
-        <div>
             <?php
-            print Util::htmlLogout();
-            ?>
-        </div>
+            print Util::htmlHTag(level: 1, text: "Gesundheit Issue Tracker");
+            /*
+              print $dbmodel;
+             */
 
-    </body>
-</html>
-<?php
+            print IssueView::issueTable($dbmodel);
+            $dbmodel->close();
+            ?>
+            <div>
+                <?php
+                print Util::htmlLogout() . PHP_EOL;
+                print Util::htmlNewIssue() . PHP_EOL;
+                ?>
+            </div>
+
+        </body>
+    </html>
+    <?php
 }
 
