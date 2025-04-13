@@ -39,8 +39,8 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$currentUserModel = LoginController::validateLoginCookie($dbmodel);
-if (!$currentUserModel) {
+$usermodel = LoginController::validateLoginCookie($dbmodel);
+if (!$usermodel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
@@ -58,7 +58,7 @@ if (!$currentUserModel) {
         <body>
             <div class="form-container">
                 <h1>New Issue</h1>
-                <form id="loginform" action="save_new_issue.php" method="post" enctype="multipart/form-data" autocomplete="on">
+                <form id="save_new_issue" action="save_new_issue.php" method="post" enctype="multipart/form-data" autocomplete="on">
                     <label for="issue_description">Description of Issue:</label><br>
                     <input type="text" id="issue_description" name="issue_description"><br><br>
                     <label for="posting">Details of issue</label><br>
