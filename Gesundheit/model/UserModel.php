@@ -139,6 +139,26 @@ class UserModel {
         return $usermodel;
     }
 
+    public static function newUserModelFromDoc(MongoDB\Model\BSONDocument $doc): UserModel {
+        $usermodel = new UserModel();
+        $usermodel->fromDoc($doc);
+        return $usermodel;
+    }
+
+    public static function newUserModelNumbered(string $name, string $password, DbModel $dbmodel): UserModel {
+        return new UserModel($dbmodel->highestUserNumber() + 1, $name, $password);
+    }
+
+    public static function changePassword(string $name, string $password, DbModel $dbmodel): bool {
+        $success = false;
+        $usermodel = self::newUserModelFromLoad($dbmodel, $name);
+        if ($usermodel) {
+            $usermodel->setPassword($password);
+            $success = $usermodel->save($dbmodel);
+        }
+        return $success;
+    }
+
     public function save(DbModel $dbmodel): bool {
         return $dbmodel->upsert_userdoc(doc: $this->toDoc());
     }
