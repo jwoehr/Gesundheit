@@ -44,12 +44,19 @@ if (!$currentUserModel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
-    $myIssue = IssueEditController::httpIssueNumber();
+    $issuenumber = IssueEditController::httpIssueNumber();
+    if ($issuenumber) {
+        $isResolve = IssueEditController::isResolve();
+        if ($isResolve) {
+            IssueEditController::resolveIssue($issuenumber, $dbmodel);
+        }
+    }
     ?>
     <html>
 
         <head>
             <meta charset="UTF-8">
+            <link rel="icon" type="image/png" href="./favico.png">
             <title>Gesundheit Issue Editor</title>
             <?php print Util::stylesheet('./css/trackertable.css') ?>
         </head>
@@ -58,7 +65,8 @@ if (!$currentUserModel) {
             <div>
                 <?php
                 print Util::htmlHTag(level: 1, text: "Gesundheit Issue Editor");
-                print IssueEditView::issueEditTable($dbmodel, $myIssue);
+                print IssueEditView::issueEditTable($dbmodel, $issuenumber);
+                print Util::htmlIssueResolve($issuenumber);
                 print Util::htmlLogout() . PHP_EOL;
                 print Util::htmlIssueView() . PHP_EOL;
                 $dbmodel->close();

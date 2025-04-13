@@ -47,6 +47,7 @@ if (!$currentUserModel) {
 
         <head>
             <meta charset="UTF-8">
+            <link rel="icon" type="image/png" href="./favico.png">
             <title>Gesundheit Issue Tracker</title>
             <?php print Util::stylesheet('./css/trackertable.css') ?>
             <script src="./js/js.cookie.min.js"></script>

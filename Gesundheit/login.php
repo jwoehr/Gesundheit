@@ -48,6 +48,7 @@ if (LoginView::isLoggingOut()) {
 
     <head>
         <meta charset="UTF-8">
+        <link rel="icon" type="image/png" href="./favico.png">
         <title>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</title>
         <?php print Util::stylesheet('./css/login.css') ?>
     </head>

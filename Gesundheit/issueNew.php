@@ -44,12 +44,13 @@ if (!$currentUserModel) {
     $dbmodel->close();
     header("Location: ./login.php");
 } else {
-    $myIssue = IssueEditController::httpIssueNumber();
+    $issuenumber = IssueEditController::httpIssueNumber();
     ?>
     <html>
 
         <head>
             <meta charset="UTF-8">
+            <link rel="icon" type="image/png" href="./favico.png">
             <title>Gesundheit New Issue</title>
             <?php print Util::stylesheet('./css/trackertable.css') ?>
         </head>

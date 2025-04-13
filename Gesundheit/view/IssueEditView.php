@@ -55,7 +55,7 @@ class IssueEditView {
         if ($issuemodel) {
             $output .= IssueView::issueTableRow($issuemodel);
         }
-        $output .= '</table>';
+        $output .= '</table>' . PHP_EOL;
         return $output;
     }
 }

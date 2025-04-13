@@ -26,6 +26,7 @@
 
 require_once __DIR__ . '/../util/Util.php';
 require_once __DIR__ . '/../model/DbModel.php';
+require_once __DIR__ . '/../controller/IssueController.php';
 
 /**
  * IssueEditController provides routines for the IssueEditView and issueEdit.php
@@ -39,6 +40,16 @@ class IssueEditController {
                 filter_input(type: INPUT_POST, var_name: 'issue', filter: FILTER_SANITIZE_NUMBER_INT));
         return $my_issue_number ?: 0;
     }
-    
 
+    public static function isResolve(): bool {
+        $resolve = (filter_input(type: INPUT_GET, var_name: 'resolve', filter: FILTER_SANITIZE_STRING) ?:
+                filter_input(type: INPUT_POST, var_name: 'resolve', filter: FILTER_SANITIZE_STRING));
+        return $resolve ? true : false;
+    }
+
+    public static function resolveIssue(int $issuenumber, DbModel $dbmodel): bool {
+        $issueModel = IssueController::issueModelFromDoc($dbmodel->get_issue_by_issue_number($issuenumber));
+        $issueModel->setResolved(true);
+        return $dbmodel->upsert_issue($issueModel->toDoc());
+    }
 }

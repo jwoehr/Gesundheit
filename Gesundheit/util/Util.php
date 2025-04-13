@@ -85,44 +85,73 @@ class Util {
         return $out;
     }
 
+    /**
+     * Generate html for a row of issue table
+     * @param array $data
+     * @param string $class
+     * @param string $id
+     * @return string
+     */
     public static function htmlTableRow(array $data, string $class = null, string $id = null): string {
         $out = "<tr";
         $out .= $id ? " id = \"{$id}" : "";
         $out .= $class ? " class=\"{$class}" : "";
         $out .= ">";
         $issue_id = array_shift($data); // issue id is special, it's  a link
-        $out .= "<td><a href=\"./issueEdit.php?issue={$issue_id}\">{$issue_id}</a></td>";
+        $out .= "<td><a href=\"./issueEdit.php?issue={$issue_id}\">{$issue_id}</a></td>" . PHP_EOL;
         foreach ($data as $datum) { // process the rest of the row
-            $out .= self::htmlTableData($datum);
+            $out .= "<td>{$datum}</td>" . PHP_EOL;
         }
-        $out .= "</tr>";
+        $out .= "</tr>" . PHP_EOL;
         return $out;
     }
 
-    public static function htmlTableData(string $data): string {
-        return "<td>{$data}</td>";
-    }
-
+    /**
+     * 
+     * @return string
+     */
     public static function htmlLogout(): string {
-        $out = '<form id="logout_form" action="login.php" method="post" enctype="multipart/form-data" '
-                . 'autocomplete="on"><input type="submit" id="submitLogout" name="submitLogout" value="Logout" onclick="Cookies.remove(\'GESUNDHEIT\');">'
-                . '<input type="hidden" id="Logout" name="Logout" value="Logout">'
-                . '</form>';
+        $out = '<form id="logout_form" action="login.php" method="post" enctype="multipart/form-data" ' . PHP_EOL
+                . 'autocomplete="on"><input type="submit" id="submitLogout" name="submitLogout" value="Logout" onclick="Cookies.remove(\'GESUNDHEIT\');">' . PHP_EOL
+                . '<input type="hidden" id="Logout" name="Logout" value="Logout">' . PHP_EOL
+                . '</form>' . PHP_EOL;
 
         return $out;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public static function htmlNewIssue(): string {
-        $out = '<form id="new_issue_form" action="issueNew.php" method="get" enctype="multipart/form-data" '
-                . 'autocomplete="on"><input type="submit" id="submitNewIssue" name="submitNewIssue" value="Submit new issue">'
-                . '</form>';
+        $out = '<form id="new_issue_form" action="issueNew.php" method="get" enctype="multipart/form-data" ' . PHP_EOL
+                . 'autocomplete="on"><input type="submit" id="submitNewIssue" name="submitNewIssue" value="Submit new issue">' . PHP_EOL
+                . '</form>' . PHP_EOL;
         return $out;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public static function htmlIssueView(): string {
-        $out = '<form id="view_issues_form" action="index.php" method="get" enctype="multipart/form-data" '
-                . 'autocomplete="on"><input type="submit" id="viewIssues" name="viewIssues" value="View issues">'
-                . '</form>';
+        $out = '<form id="view_issues_form" action="index.php" method="get" enctype="multipart/form-data" ' . PHP_EOL
+                . 'autocomplete="on"><input type="submit" id="viewIssues" name="viewIssues" value="View issues">' . PHP_EOL
+                . '</form>' . PHP_EOL;
+        return $out;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public static function htmlIssueResolve(int $issuenumber): string {
+        $out = '<form id="view_issues_form" action="./issueEdit.php" method="post" enctype="multipart/form-data" '
+                . 'autocomplete="on">' . PHP_EOL
+                . '<input type=hidden id="issue" name="issue" value ="' . $issuenumber . '">' . PHP_EOL
+                . '<input type=hidden id="resolve" name="resolve" value ="resolve">' . PHP_EOL
+                . '<input type="submit" id="resolveIssue" name="resolveIssue" value="Resolve issue">' . PHP_EOL
+                . '</form>' . PHP_EOL;
         return $out;
     }
 }
