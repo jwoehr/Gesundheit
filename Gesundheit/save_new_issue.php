@@ -43,7 +43,8 @@ if (!$currentUserModel) {
     header("Location: ./login.php");
 } else {
     $description = IssueView::getNewIssueDescription();
-    IssueController::saveNewIssue($description, $currentUserModel, $dbmodel);
+    $posting = IssueView::getNewIssuePosting();
+    IssueController::saveNewIssue($description, $posting, $currentUserModel, $dbmodel);
     $dbmodel->close();
     header("Location: ./index.php");
 }

@@ -89,11 +89,13 @@ class IssueController {
      * @param DbModel $dbmodel
      * @return bool
      */
-    public static function saveNewIssue(string $description, UserModel $usermodel, DbModel $dbmodel): bool {
+    public static function saveNewIssue(string $description, string $posting, UserModel $usermodel, DbModel $dbmodel): bool {
         $issuemodel = new IssueModel();
         $issuemodel->setUsernum($usermodel->getUsernum());
         $issuemodel->setName($usermodel->getName());
         $issuemodel->setDescription($description);
+        $posting = new PostingModel($usermodel->getUsernum(), $posting);
+        $issuemodel->getConversation()->addPosting($posting);
         self::numberNewIssue($issuemodel, $dbmodel);
         return $dbmodel->upsert_issue($issuemodel->toDoc());
     }

@@ -60,7 +60,9 @@ if (!$currentUserModel) {
                 <form id="loginform" action="save_new_issue.php" method="post" enctype="multipart/form-data" autocomplete="on">
                     <label for="issue_description">Description of Issue:</label><br>
                     <input type="text" id="issue_description" name="issue_description"><br><br>
-                    <input type="submit" value="Submit">
+                    <label for="posting">Details of issue</label><br>
+                    <textarea id="posting" name="posting" rows="5" cols="33"></textarea><br>
+                    <input type="submit" value="Submit"><br><br>
                 </form>
             </div>
             <div>

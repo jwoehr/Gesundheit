@@ -84,4 +84,8 @@ class IssueView {
     public static function getNewIssueDescription(): ?string {
         return filter_input(INPUT_POST, 'issue_description', FILTER_SANITIZE_STRING);
     }
+
+    public static function getNewIssuePosting(): ?string {
+        return filter_input(INPUT_POST, 'posting', FILTER_SANITIZE_STRING);
+    }
 }
