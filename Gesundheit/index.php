@@ -57,10 +57,6 @@ if (!$usermodel) {
 
             <?php
             print Util::htmlHTag(level: 1, text: "Gesundheit Issue Tracker");
-            /*
-              print $dbmodel;
-             */
-
             print IssueView::issueTable(dbmodel: $dbmodel);
             $dbmodel->close();
             ?>
