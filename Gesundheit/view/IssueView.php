@@ -52,9 +52,9 @@ class IssueView {
 
     public static function issueTableRows(DbModel $dbmodel): string {
         $issuetablerows = "";
-        $issuemodels = IssueController::getAllIssues($dbmodel);
+        $issuemodels = IssueController::getAllIssues(dbmodel: $dbmodel);
         foreach ($issuemodels as $issuemodel) {
-            $issuetablerows .= self::issueTableRow($issuemodel) . PHP_EOL;
+            $issuetablerows .= self::issueTableRow(issuemodel: $issuemodel) . PHP_EOL;
         }
         return $issuetablerows;
     }
@@ -76,16 +76,16 @@ class IssueView {
                 </tr>
             </thead>' . PHP_EOL;
 
-        $output .= IssueView::issueTableRows($dbmodel);
+        $output .= IssueView::issueTableRows(dbmodel: $dbmodel);
         $output .= '</table>';
         return $output;
     }
 
     public static function getNewIssueDescription(): ?string {
-        return filter_input(INPUT_POST, 'issue_description', FILTER_SANITIZE_STRING);
+        return filter_input(type: INPUT_POST, var_name: 'issue_description', filter: FILTER_SANITIZE_STRING);
     }
 
     public static function getNewIssuePosting(): ?string {
-        return filter_input(INPUT_POST, 'posting', FILTER_SANITIZE_STRING);
+        return filter_input(type: INPUT_POST, var_name: 'posting', filter: FILTER_SANITIZE_STRING);
     }
 }

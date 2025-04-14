@@ -39,7 +39,7 @@ class IssueController {
      */
     public static function issueModelFromDoc(MongoDB\Model\BSONDocument $doc): IssueModel {
         $issuemodel = new IssueModel();
-        $issuemodel->fromDoc($doc);
+        $issuemodel->fromDoc(doc: $doc);
         return $issuemodel;
     }
 
@@ -51,10 +51,10 @@ class IssueController {
      */
     public static function getIssue(int $issue_number, DbModel $dbmodel): ?IssueModel {
         $issuemodel = null;
-        $issue_array = $dbmodel->issue_user_lookup($issue_number);
+        $issue_array = $dbmodel->issue_user_lookup(issue_number: $issue_number);
         if (!empty($issue_array)) {
             $doc = $issue_array[0];
-            $issuemodel = self::issueModelFromDoc($doc);
+            $issuemodel = self::issueModelFromDoc(doc: $doc);
         }
         return $issuemodel;
     }
@@ -68,7 +68,7 @@ class IssueController {
         $allIssues = [];
         $issue_user_lookup_all = $dbmodel->issue_user_lookup_all();
         foreach ($issue_user_lookup_all as $doc) {
-            $allIssues[] = self::issueModelFromDoc($doc);
+            $allIssues[] = self::issueModelFromDoc(doc: $doc);
         }
         return $allIssues;
     }
@@ -79,7 +79,7 @@ class IssueController {
      * @param DbModel $dbmodel
      */
     public static function numberNewIssue(IssueModel $issuemodel, DbModel $dbmodel): void {
-        $issuemodel->setIssue_number($dbmodel->highestIssueNumber() + 1);
+        $issuemodel->setIssue_number(issue_number: $dbmodel->highestIssueNumber() + 1);
     }
 
     /**
@@ -91,12 +91,12 @@ class IssueController {
      */
     public static function saveNewIssue(string $description, string $text, UserModel $usermodel, DbModel $dbmodel): bool {
         $issuemodel = new IssueModel();
-        $issuemodel->setUsernum($usermodel->getUsernum());
-        $issuemodel->setName($usermodel->getName());
-        $issuemodel->setDescription($description);
-        $posting = new PostingModel($usermodel->getUsernum(), $text);
-        $issuemodel->getConversation()->addPosting($posting);
-        self::numberNewIssue($issuemodel, $dbmodel);
-        return $dbmodel->upsert_issue($issuemodel->toDoc());
+        $issuemodel->setUsernum(usernum: $usermodel->getUsernum());
+        $issuemodel->setName(name: $usermodel->getName());
+        $issuemodel->setDescription(description: $description);
+        $posting = new PostingModel(usernum: $usermodel->getUsernum(), posting: $text);
+        $issuemodel->getConversation()->addPosting(postingmodel: $posting);
+        self::numberNewIssue(issuemodel: $issuemodel, dbmodel: $dbmodel);
+        return $dbmodel->upsert_issue(doc: $issuemodel->toDoc());
     }
 }

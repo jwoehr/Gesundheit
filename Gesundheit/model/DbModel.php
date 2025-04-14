@@ -239,7 +239,7 @@ class DbModel {
      */
     public function get_all_userdocs(): array {
         return $this->mongodb_db->user->aggregate(
-                        [
+                        pipeline: [
                             ['$project' => [
                                     '_id' => false,
                                     'usernum' => true,
@@ -258,7 +258,7 @@ class DbModel {
      */
     public function get_userdoc_by_name(string $name): ?MongoDB\Model\BSONDocument {
         $doc = null;
-        $obj = $this->mongodb_db->user->find(["name" => $name]);
+        $obj = $this->mongodb_db->user->find(filter: ["name" => $name]);
         if ($obj) {
             $array = $obj->toArray();
             if (count(value: $array) > 0) {
@@ -275,7 +275,7 @@ class DbModel {
      */
     public function get_userdoc_by_usernum(int $usernum): ?MongoDB\Model\BSONDocument {
         $doc = null;
-        $obj = $this->mongodb_db->user->find(["usernum" => $usernum]);
+        $obj = $this->mongodb_db->user->find(filter: ["usernum" => $usernum]);
         if ($obj) {
             $array = $obj->toArray();
             if (count(value: $array) > 0) {
@@ -292,9 +292,9 @@ class DbModel {
      */
     public function upsert_userdoc(MongoDB\Model\BSONDocument $doc): bool {
         $success = $this->mongodb_db->user->updateOne(
-                ['usernum' => $doc['usernum']],
-                ['$set' => $doc],
-                [
+                filter: ['usernum' => $doc['usernum']],
+                update: ['$set' => $doc],
+                options: [
                     'upsert' => true,
                     'writeConcern' => new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY)
                 ]
@@ -307,7 +307,7 @@ class DbModel {
      * @param string $name user to delete
      */
     public function delete_user_by_name(string $name): bool {
-        return $this->mongodb_db->user->deleteOne(['name' => $name])->getDeletedCount() > 0;
+        return $this->mongodb_db->user->deleteOne(filter: ['name' => $name])->getDeletedCount() > 0;
     }
 
     /**
@@ -317,7 +317,7 @@ class DbModel {
      */
     public function get_issue_by_issue_number(int $issue_number): ?MongoDB\Model\BSONDocument {
         $doc = null;
-        $obj = $this->mongodb_db->issue->find(["issue_number" => $issue_number]);
+        $obj = $this->mongodb_db->issue->find(filter: ["issue_number" => $issue_number]);
         if ($obj) {
             $array = $obj->toArray();
             if (count(value: $array) > 0) {
@@ -334,9 +334,9 @@ class DbModel {
      */
     public function upsert_issue(MongoDB\Model\BSONDocument $doc): bool {
         $success = $this->mongodb_db->issue->updateOne(
-                ['issue_number' => $doc['issue_number']],
-                ['$set' => $doc],
-                [
+                filter: ['issue_number' => $doc['issue_number']],
+                update: ['$set' => $doc],
+                options: [
                     'upsert' => true,
                     'writeConcern' => new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY)
                 ]
@@ -352,7 +352,7 @@ class DbModel {
      */
     public function issue_user_lookup(int $issue_number): array {
         return $this->mongodb_db->issue->aggregate(
-                        [
+                        pipeline: [
                             ['$match' => ['issue_number' => $issue_number]],
                             ['$project' => [
                                     '_id' => false,
@@ -394,7 +394,7 @@ class DbModel {
      */
     public function issue_user_lookup_all(): array {
         return $this->mongodb_db->issue->aggregate(
-                        [
+                        pipeline: [
                             ['$project' =>
                                 [
                                     '_id' => false,
@@ -436,7 +436,7 @@ class DbModel {
     public function highestUserNumber(): int {
         $highest = 0;
         $array = $this->mongodb_db->user->aggregate(
-                        [
+                        pipeline: [
                             ['$project' =>
                                 [
                                     '_id' => false,
@@ -449,7 +449,7 @@ class DbModel {
                             ]
                         ]
                 )->toArray();
-        if (count($array)) {
+        if (count(value: $array)) {
             $highest = $array[0]['usernum'];
         }
         return $highest;
@@ -462,7 +462,7 @@ class DbModel {
     public function highestIssueNumber(): int {
         $highest = 0;
         $array = $this->mongodb_db->issue->aggregate(
-                        [
+                        pipeline: [
                             ['$project' =>
                                 [
                                     '_id' => false,
@@ -475,7 +475,7 @@ class DbModel {
                             ]
                         ]
                 )->toArray();
-        if (count($array)) {
+        if (count(value: $array)) {
             $highest = $array[0]['issue_number'];
         }
         return $highest;

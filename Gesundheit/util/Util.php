@@ -51,7 +51,7 @@ class Util {
      */
     public static function getDotEnv(string $key): ?string {
         $result = null;
-        if (array_key_exists($key, $_ENV)) {
+        if (array_key_exists(key: $key, array: $_ENV)) {
             $result = $_ENV[$key];
         }
         return $result;
@@ -97,7 +97,7 @@ class Util {
         $out .= $id ? " id = \"{$id}" : "";
         $out .= $class ? " class=\"{$class}" : "";
         $out .= ">";
-        $issue_id = array_shift($data); // issue id is special, it's  a link
+        $issue_id = array_shift(array: $data); // issue id is special, it's  a link
         $out .= "<td><a href=\"./issueEdit.php?issue={$issue_id}\">{$issue_id}</a></td>" . PHP_EOL;
         foreach ($data as $datum) { // process the rest of the row
             $out .= "<td>{$datum}</td>" . PHP_EOL;

@@ -39,20 +39,20 @@ class LoginView {
     public static function setLoginCookieFromPost(DbModel $dbmodel): bool {
         $success = false;
         LoginController::logout();
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-        $usermodel = LoginController::validateLogin($dbmodel, $name, $password);
+        $name = filter_input(type: INPUT_POST, var_name: 'name', filter: FILTER_SANITIZE_STRING);
+        $password = filter_input(type: INPUT_POST, var_name: 'password', filter: FILTER_SANITIZE_STRING);
+        $usermodel = LoginController::validateLogin(dbmodel: $dbmodel, username: $name, password: $password);
         if ($usermodel) {
-            $success = LoginController::setLoginCookie($usermodel);
+            $success = LoginController::setLoginCookie(usermodel: $usermodel);
         }
         return $success;
     }
 
     public static function isLoggingIn(): bool {
-        return filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING) ? true : false;
+        return filter_input(type: INPUT_POST, var_name: 'password', filter: FILTER_SANITIZE_STRING) ? true : false;
     }
 
     public static function isLoggingOut(): bool {
-        return filter_input(INPUT_POST, 'Logout', FILTER_SANITIZE_STRING) ? true : false;
+        return filter_input(type: INPUT_POST, var_name: 'Logout', filter: FILTER_SANITIZE_STRING) ? true : false;
     }
 }

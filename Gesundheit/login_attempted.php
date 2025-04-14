@@ -37,10 +37,10 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$success_logging_in = LoginView::setLoginCookieFromPost($dbmodel);
+$success_logging_in = LoginView::setLoginCookieFromPost(dbmodel: $dbmodel);
 $dbmodel->close();
 if ($success_logging_in) {
-    header("Location: ./index.php");
+    header(header: "Location: ./index.php");
 } else {
-    header("Location: ./login.php");
+    header(header: "Location: ./login.php");
 }

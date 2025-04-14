@@ -38,10 +38,10 @@ $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
 if (LoginView::isLoggingOut()) {
-    LoginController::logout();  
-} elseif (LoginController::validateLoginCookie($dbmodel)) {
+    LoginController::logout();
+} elseif (LoginController::validateLoginCookie(dbmodel: $dbmodel)) {
     $dbmodel->close();
-    header("Location: ./index.php");
+    header(header: "Location: ./index.php");
 }
 ?>
 <html>
@@ -50,7 +50,7 @@ if (LoginView::isLoggingOut()) {
         <meta charset="UTF-8">
         <link rel="icon" type="image/png" href="./favico.png">
         <title>Gesundheit Issue Tracker Login (<b>not really secure&excl;</b>)</title>
-        <?php print Util::stylesheet('./css/login.css') ?>
+        <?php print Util::stylesheet(url: './css/login.css') ?>
     </head>
 
     <body>

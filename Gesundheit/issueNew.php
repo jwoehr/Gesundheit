@@ -39,10 +39,10 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$usermodel = LoginController::validateLoginCookie($dbmodel);
+$usermodel = LoginController::validateLoginCookie(dbmodel: $dbmodel);
 if (!$usermodel) {
     $dbmodel->close();
-    header("Location: ./login.php");
+    header(header: "Location: ./login.php");
 } else {
     $issuenumber = IssueEditController::httpIssueNumber();
     ?>
@@ -52,7 +52,7 @@ if (!$usermodel) {
             <meta charset="UTF-8">
             <link rel="icon" type="image/png" href="./favico.png">
             <title>Gesundheit New Issue</title>
-            <?php print Util::stylesheet('./css/trackertable.css') ?>
+            <?php print Util::stylesheet(url: './css/trackertable.css') ?>
         </head>
 
         <body>

@@ -55,9 +55,9 @@ class IssueEditController {
     }
 
     public static function resolveIssue(int $issuenumber, DbModel $dbmodel): bool {
-        $issueModel = IssueController::issueModelFromDoc($dbmodel->get_issue_by_issue_number($issuenumber));
-        $issueModel->setResolved(true);
-        return $dbmodel->upsert_issue($issueModel->toDoc());
+        $issueModel = IssueController::issueModelFromDoc(doc: $dbmodel->get_issue_by_issue_number(issue_number: $issuenumber));
+        $issueModel->setResolved(resolved: true);
+        return $dbmodel->upsert_issue(doc: $issueModel->toDoc());
     }
 
     public static function isSave(): bool {
@@ -67,9 +67,9 @@ class IssueEditController {
     }
 
     public static function savePosting(int $issuenumber, UserModel $usermodel, string $text, DbModel $dbmodel): bool {
-        $issuemodel = IssueController::issueModelFromDoc($dbmodel->get_issue_by_issue_number($issuenumber));
-        $posting = new PostingModel($usermodel->getUsernum(), $text);
-        $issuemodel->getConversation()->addPosting($posting);
-        return $dbmodel->upsert_issue($issuemodel->toDoc());
+        $issuemodel = IssueController::issueModelFromDoc(doc: $dbmodel->get_issue_by_issue_number(issue_number: $issuenumber));
+        $posting = new PostingModel(usernum: $usermodel->getUsernum(), posting: $text);
+        $issuemodel->getConversation()->addPosting(postingmodel: $posting);
+        return $dbmodel->upsert_issue(doc: $issuemodel->toDoc());
     }
 }

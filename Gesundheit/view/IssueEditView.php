@@ -57,9 +57,9 @@ class IssueEditView {
                     <th scope=\"col\">Resolved?</th>
                 </tr>
             </thead>" . PHP_EOL;
-        $issuemodel = IssueController::getIssue($issue_number, $dbmodel);
+        $issuemodel = IssueController::getIssue(issue_number: $issue_number, dbmodel: $dbmodel);
         if ($issuemodel) {
-            $output .= IssueView::issueTableRow($issuemodel);
+            $output .= IssueView::issueTableRow(issuemodel: $issuemodel);
         }
         $output .= '</table>' . PHP_EOL;
         return $output;

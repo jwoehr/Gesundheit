@@ -55,9 +55,9 @@ class LoginController {
         $g = filter_input(type: INPUT_COOKIE, var_name: 'GESUNDHEIT', filter: FILTER_DEFAULT);
         if ($g) {
             $e = explode(separator: ':', string: $g);
-            if (sizeof($e) === 2) {
+            if (sizeof(value: $e) === 2) {
                 $name = $e[0];
-                $usernum = intval($e[1]);
+                $usernum = intval(value: $e[1]);
                 $usermodel = UserModel::newUserModelFromLoad(dbmodel: $dbmodel, name: $name);
                 $usermodel = ($usermodel->getUsernum() === $usernum) ? $usermodel : null;
             }

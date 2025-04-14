@@ -39,7 +39,7 @@ $mongodb_uri = Util::getDotEnv(key: 'mongodb_uri');
 $mongodb_db_name = Util::getDotEnv(key: 'mongodb_db_name');
 $dbmodel = DbModel::newDbModel();
 $dbmodel->connect();
-$usermodel = LoginController::validateLoginCookie($dbmodel);
+$usermodel = LoginController::validateLoginCookie(dbmodel: $dbmodel);
 if (!$usermodel) {
     $dbmodel->close();
     header("Location: ./login.php");
@@ -47,9 +47,9 @@ if (!$usermodel) {
     $issuenumber = IssueEditController::httpIssueNumber();
     if ($issuenumber) {
         if (IssueEditController::isResolve()) {
-            IssueEditController::resolveIssue($issuenumber, $dbmodel);
+            IssueEditController::resolveIssue(issuenumber: $issuenumber, dbmodel: $dbmodel);
         } elseif (IssueEditController::isSave()) {
-            IssueEditController::savePosting($issuenumber, $usermodel, IssueEditController::httpPosting(), $dbmodel);
+            IssueEditController::savePosting(issuenumber: $issuenumber, usermodel: $usermodel, text: IssueEditController::httpPosting(), dbmodel: $dbmodel);
         }
     }
     ?>
@@ -59,16 +59,16 @@ if (!$usermodel) {
             <meta charset="UTF-8">
             <link rel="icon" type="image/png" href="./favico.png">
             <title>Gesundheit Issue Editor</title>
-            <?php print Util::stylesheet('./css/trackertable.css') ?>
+            <?php print Util::stylesheet(url: './css/trackertable.css') ?>
         </head>
 
         <body>
             <div>
                 <?php
                 print Util::htmlHTag(level: 1, text: "Gesundheit Issue Editor");
-                print IssueEditView::issueEditTable($dbmodel, $issuenumber);
-                print Util::htmlSavePosting($issuenumber);
-                print Util::htmlIssueResolve($issuenumber);
+                print IssueEditView::issueEditTable(dbmodel: $dbmodel, issue_number: $issuenumber);
+                print Util::htmlSavePosting(issuenumber: $issuenumber);
+                print Util::htmlIssueResolve(issuenumber: $issuenumber);
                 print Util::htmlIssueView() . PHP_EOL;
                 print Util::htmlLogout() . PHP_EOL;
                 $dbmodel->close();

@@ -78,7 +78,7 @@ class IssueModel {
     }
 
     public function setName(?string $name): void {
-        $this->name = $name ? $name : "";
+        $this->name = $name ?: "";
     }
 
     public function getDescription(): string {
@@ -118,12 +118,11 @@ class IssueModel {
     }
 
     public function toDoc(): MongoDB\Model\BSONDocument {
-        $conversationDoc = ($this->getConversation()->toDoc());
+        $conversationDoc = $this->getConversation()->toDoc();
         $doc = new MongoDB\Model\BSONDocument(
                 [
             'issue_number' => $this->getIssue_number(),
             'usernum' => $this->getUsernum(),
-           // 'name' => $this->getName(),
             'description' => $this->getDescription(),
             'conversation' => $conversationDoc,
             'resolved' => $this->getResolved()
@@ -134,7 +133,7 @@ class IssueModel {
     public function fromDoc(MongoDB\Model\BSONDocument $doc): void {
         $this->setIssue_number(issue_number: $doc->issue_number);
         $this->setUsernum(usernum: $doc->usernum);
-        $this->setName(name: (property_exists($doc, 'user') ? $doc->user[0]->name : ""));
+        $this->setName(name: property_exists(object_or_class: $doc, property: 'user') ? $doc->user[0]->name : "");
         $this->setDescription(description: $doc->description);
         $this->setConversation(conversation: ConversationModel::newFromDoc(doc: $doc->conversation));
         $this->setResolved(resolved: $doc->resolved);

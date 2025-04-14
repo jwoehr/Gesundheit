@@ -37,7 +37,7 @@ class ConversationModel {
     private array $postings;
 
     public function __construct(array $postings = []) {
-        $this->setPostings($postings);
+        $this->setPostings(postings: $postings);
     }
 
     public function __tostring(): string {
@@ -69,7 +69,7 @@ class ConversationModel {
         foreach ($this->getPostings() as $posting) {
             $postingstodoc[] = $posting->toDoc();
         }
-        return new MongoDB\Model\BSONArray($postingstodoc);
+        return new MongoDB\Model\BSONArray(array: $postingstodoc);
     }
 
     /**

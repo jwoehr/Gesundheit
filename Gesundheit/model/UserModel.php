@@ -77,7 +77,7 @@ class UserModel {
 
     public function toDoc(): MongoDB\Model\BSONDocument {
         $doc = new MongoDB\Model\BSONDocument(
-                [
+                input: [
             'usernum' => $this->getUsernum(),
             'name' => $this->getName(),
             'password' => $this->getPassword(),
@@ -133,7 +133,7 @@ class UserModel {
 
     public static function newUserModelFromLoad(DbModel $dbmodel, ?string $name = null, ?int $usernum = null): ?UserModel {
         $usermodel = new UserModel();
-        if (!($usermodel->load($dbmodel, $name, $usernum))) {
+        if (!($usermodel->load(dbmodel: $dbmodel, name: $name, usernum: $usernum))) {
             $usermodel = null;
         }
         return $usermodel;
@@ -141,20 +141,20 @@ class UserModel {
 
     public static function newUserModelFromDoc(MongoDB\Model\BSONDocument $doc): UserModel {
         $usermodel = new UserModel();
-        $usermodel->fromDoc($doc);
+        $usermodel->fromDoc(doc: $doc);
         return $usermodel;
     }
 
     public static function newUserModelNumbered(string $name, string $password, DbModel $dbmodel): UserModel {
-        return new UserModel($dbmodel->highestUserNumber() + 1, $name, $password);
+        return new UserModel(usernum: $dbmodel->highestUserNumber() + 1, name: $name, password: $password);
     }
 
     public static function changePassword(string $name, string $password, DbModel $dbmodel): bool {
         $success = false;
-        $usermodel = self::newUserModelFromLoad($dbmodel, $name);
+        $usermodel = self::newUserModelFromLoad(dbmodel: $dbmodel, name: $name);
         if ($usermodel) {
-            $usermodel->setPassword($password);
-            $success = $usermodel->save($dbmodel);
+            $usermodel->setPassword(password: $password);
+            $success = $usermodel->save(dbmodel: $dbmodel);
         }
         return $success;
     }

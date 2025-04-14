@@ -47,7 +47,7 @@ class PostingModel {
     public function getUsername(): string {
         $dbmodel = DbModel::newDbModel();
         $dbmodel->connect();
-        $username = $dbmodel->get_userdoc_by_usernum($this->getUsernum())['name'];
+        $username = $dbmodel->get_userdoc_by_usernum(usernum: $this->getUsernum())['name'];
         $dbmodel->close();
         return $username;
     }
