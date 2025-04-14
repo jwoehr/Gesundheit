@@ -76,7 +76,7 @@ class IssueView {
                 </tr>
             </thead>' . PHP_EOL;
 
-        $output .= IssueView::issueTableRows(dbmodel: $dbmodel);
+        $output .= self::issueTableRows(dbmodel: $dbmodel);
         $output .= '</table>';
         return $output;
     }
