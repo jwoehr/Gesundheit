@@ -81,3 +81,7 @@ Assuming you have a `.env` file in the Gesundheit directory:
     - See the `example.env` file in the root of the repo.
     - Create a duplicate test database and point to that in your .`env_test` file.
       - There is a `mongodump`  in the directory `test/dump` of the test database corresponding to the data expected by the tests.
+
+## Document the code
+
+The code is set up for [phpDocumentor](https://phpdoc.org/) ... just install that tool and run the phpDocumentor command and it will generate API documentation in `.doc/`
