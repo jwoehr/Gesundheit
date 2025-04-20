@@ -30,6 +30,9 @@ require_once __DIR__ . "/../model/IssueModel.php";
 require_once __DIR__ . "/../model/PostingModel.php";
 require_once __DIR__ . "/../model/ConversationModel.php";
 
+/**
+ * IssueController provides Issue Model manipulation routines as static methods
+ */
 class IssueController {
 
     /**
