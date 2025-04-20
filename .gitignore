@@ -1,4 +1,6 @@
 /.env
+/doc
+/.phpdoc
 /nbproject/private
 /vendor
 /scripts/node_modules
