@@ -84,4 +84,4 @@ Assuming you have a `.env` file in the Gesundheit directory:
 
 ## Document the code
 
-The code is set up for [phpDocumentor](https://phpdoc.org/) ... just install that tool and run the phpDocumentor command and it will generate API documentation in `.doc/`
+The code is set up for [phpDocumentor](https://phpdoc.org/) ... just install that tool and run the phpDocumentor command and it will generate API documentation in `./doc/`. Use your browser to Open a File and view `./doc/index.html`
